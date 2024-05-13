@@ -12,13 +12,11 @@ function sendMessage() {
     // Clear input field
     document.getElementById("user-input").value = "";
 
-    // Simulate backend processing with delay
-    setTimeout(function() {
-        simulateBackendProcessing(userInput, chatContainer);
-    }, 500);
+    // Respond to user input
+    respondToUserInput(userInput, chatContainer);
 }
 
-function simulateBackendProcessing(userInput, chatContainer) {
+function respondToUserInput(userInput, chatContainer) {
     // Simulate response based on user input
     var response;
     if (userInput.toLowerCase().includes("hello")) {
