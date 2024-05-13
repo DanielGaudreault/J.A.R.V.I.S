@@ -43,3 +43,5 @@ function displayMessage(text, className, container) {
     // Scroll to bottom
     container.scrollTop = container.scrollHeight;
 }
+
+console.log("Script loaded successfully."); // Check if script is loaded
