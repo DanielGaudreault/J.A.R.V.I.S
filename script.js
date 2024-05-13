@@ -17,7 +17,6 @@ function sendMessage() {
 }
 
 function respondToUserInput(userInput, chatContainer) {
-    // Simulate response based on user input
     var response;
     if (userInput.toLowerCase().includes("hello")) {
         response = "Hello! How can I assist you today?";
