@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("sendButton").addEventListener("click", sendMessage);
+});
+
 function sendMessage() {
     var userInput = document.getElementById("user-input").value;
     var chatContainer = document.getElementById("chat-container");
@@ -35,5 +39,3 @@ function simulateBackendProcessing(userInput, chatContainer) {
     xhr.open("GET", "responses.json", true);
     xhr.send();
 }
-
-document.getElementById("sendButton").addEventListener("click", sendMessage);
