@@ -1,39 +1,22 @@
-// app.js
+from flask import Flask, request, jsonify
 
-const readline = require('readline');
-const { getWeather, setReminder, search, getJoke } = require('./assistant');
+app = Flask(__name__)
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
-// Function to handle user input
-function handleInput(input) {
-    if (input.toLowerCase().includes("weather")) {
-        const location = input.split("weather")[1].trim();
-        getWeather(location)
-            .then(weatherData => {
-                console.log(`Weather in ${location}: ${weatherData.temperature}°C, ${weatherData.condition}`);
-            })
-            .catch(error => {
-                console.error("Error fetching weather data:", error);
-            });
-    } else if (input.toLowerCase().includes("reminder")) {
-        const reminder = input.split("reminder")[1].trim();
-        setReminder(reminder);
-    } else if (input.toLowerCase().includes("search")) {
-        const query = input.split("search")[1].trim();
-        search(query);
-    } else if (input.toLowerCase().includes("joke")) {
-        getJoke();
-    } else {
-        console.log("Sorry, I don't understand that command.");
-    }
-}
+@app.route('/process', methods=['POST'])
+def process_command():
+    data = request.json
+    command = data['command']
+    
+    # Process command here (e.g., using NLU, APIs, etc.)
+    # Example:
+    # response = process_command_using_nlu(command)
 
-// Prompt user for input
-rl.question("How can I assist you? ", function(input) {
-    handleInput(input);
-    rl.close();
-});
+    response = "Response from Jarvis: Command received - " + command
+    return jsonify({'response': response})
+
+if __name__ == '__main__':
+    app.run(debug=True)
