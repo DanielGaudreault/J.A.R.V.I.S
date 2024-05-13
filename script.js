@@ -13,23 +13,36 @@ function sendMessage() {
     document.getElementById("user-input").value = "";
 
     // Respond to user input
-    respondToUserInput(userInput, chatContainer);
+    if (userInput.toLowerCase().includes("search")) {
+        // Extract search query
+        var searchQuery = userInput.substring(7).trim(); // Remove "search" keyword
+        searchWikipedia(searchQuery, chatContainer);
+    } else {
+        displayMessage("Assistant: Sorry, I'm not sure how to help with that. Try searching using 'search [topic]'.", "assistant-message", chatContainer);
+    }
 }
 
-function respondToUserInput(userInput, chatContainer) {
-    var response;
-    if (userInput.toLowerCase().includes("hello")) {
-        response = "Hello! How can I assist you today?";
-    } else if (userInput.toLowerCase().includes("how are you")) {
-        response = "I'm just a simple HTML assistant, but thank you for asking!";
-    } else if (userInput.toLowerCase().includes("time")) {
-        response = "The current time is: " + new Date().toLocaleTimeString();
-    } else {
-        response = "Sorry, I couldn't understand that.";
-    }
+function searchWikipedia(query, chatContainer) {
+    var url = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=" + encodeURIComponent(query);
 
-    // Display assistant message
-    displayMessage("Assistant: " + response, "assistant-message", chatContainer);
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.query && data.query.search && data.query.search.length > 0) {
+                var searchResults = data.query.search;
+                var firstResult = searchResults[0]; // Get the first search result
+
+                // Display the summary of the first search result
+                var summary = firstResult.snippet.replace(/<[^>]*>/g, ''); // Remove HTML tags
+                displayMessage("Assistant: " + summary, "assistant-message", chatContainer);
+            } else {
+                displayMessage("Assistant: No results found for '" + query + "'.", "assistant-message", chatContainer);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            displayMessage("Assistant: Sorry, something went wrong while fetching data.", "assistant-message", chatContainer);
+        });
 }
 
 function displayMessage(text, className, container) {
@@ -40,5 +53,3 @@ function displayMessage(text, className, container) {
     // Scroll to bottom
     container.scrollTop = container.scrollHeight;
 }
-
-console.log("Script loaded successfully."); // Check if script is loaded
