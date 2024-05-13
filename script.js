@@ -25,7 +25,7 @@ function simulateBackendProcessing(userInput, chatContainer) {
             var response = JSON.parse(xhr.responseText);
             var assistantMessageElement = document.createElement("div");
             assistantMessageElement.classList.add("message", "assistant-message");
-            assistantMessageElement.textContent = "Assistant: " + response[userInput.toLowerCase()] || "Sorry, I couldn't understand that.";
+            assistantMessageElement.textContent = "Assistant: " + (response[userInput.toLowerCase()] || "Sorry, I couldn't understand that.");
             chatContainer.appendChild(assistantMessageElement);
             // Scroll to bottom
             chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -35,3 +35,5 @@ function simulateBackendProcessing(userInput, chatContainer) {
     xhr.open("GET", "responses.json", true);
     xhr.send();
 }
+
+document.getElementById("sendButton").addEventListener("click", sendMessage);
