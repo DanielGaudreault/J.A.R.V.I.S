@@ -14,22 +14,35 @@ function sendMessage() {
         return;
     }
     displayMessage("You", userInput);
+    searchGoogle(userInput);
     document.getElementById("userInput").value = "";
-    setTimeout(function() {
-        var response = generateResponse(userInput);
-        displayMessage("Jarvis", response);
-    }, Math.random() * 1000 + 500);
 }
 
-function generateResponse(userInput) {
-    // Simulate Jarvis's response based on user input
-    if (userInput.toLowerCase().includes("hello")) {
-        return "Hello! How can I assist you today?";
-    } else if (userInput.toLowerCase().includes("weather")) {
-        return "Let me check... It looks like it's sunny with a high of 75°F.";
-    } else {
-        return "I'm sorry, I'm just a simple assistant and can't answer that.";
-    }
+function searchGoogle(query) {
+    var apiKey = "YOUR_API_KEY"; // Replace with your Google API key
+    var cx = "YOUR_SEARCH_ENGINE_ID"; // Replace with your Google Search Engine ID
+    var url = "https://www.googleapis.com/customsearch/v1?key=" + apiKey + "&cx=" + cx + "&q=" + encodeURIComponent(query);
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        var searchResults = data.items;
+        if (searchResults) {
+            var firstResult = searchResults[0];
+            if (firstResult) {
+                var snippet = firstResult.snippet;
+                displayMessage("Jarvis", snippet);
+            } else {
+                displayMessage("Jarvis", "No search results found.");
+            }
+        } else {
+            displayMessage("Jarvis", "Error fetching search results.");
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching search results:", error);
+        displayMessage("Jarvis", "Error fetching search results.");
+    });
 }
 
 function displayMessage(sender, message) {
