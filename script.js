@@ -36,3 +36,5 @@ function generateResponse(userInput) {
         return "Sorry, I can't do that without backend processing.";
     }
 }
+
+document.getElementById("sendButton").addEventListener("click", sendMessage);
