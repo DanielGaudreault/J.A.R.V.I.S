@@ -7,35 +7,39 @@ function sendMessage() {
     var chatContainer = document.getElementById("chat-container");
     
     // Display user message
-    var userMessageElement = document.createElement("div");
-    userMessageElement.classList.add("message", "user-message");
-    userMessageElement.textContent = "You: " + userInput;
-    chatContainer.appendChild(userMessageElement);
+    displayMessage("You: " + userInput, "user-message", chatContainer);
     
     // Clear input field
     document.getElementById("user-input").value = "";
 
-    // Simulate backend processing with AJAX
+    // Simulate backend processing with delay
     setTimeout(function() {
         simulateBackendProcessing(userInput, chatContainer);
     }, 500);
 }
 
 function simulateBackendProcessing(userInput, chatContainer) {
-    // Simulate AJAX call to JSON file (replace with actual backend endpoint)
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var response = JSON.parse(xhr.responseText);
-            var assistantMessageElement = document.createElement("div");
-            assistantMessageElement.classList.add("message", "assistant-message");
-            assistantMessageElement.textContent = "Assistant: " + (response[userInput.toLowerCase()] || "Sorry, I couldn't understand that.");
-            chatContainer.appendChild(assistantMessageElement);
-            // Scroll to bottom
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-    };
-    // Replace 'responses.json' with your backend endpoint
-    xhr.open("GET", "responses.json", true);
-    xhr.send();
+    // Simulate response based on user input
+    var response;
+    if (userInput.toLowerCase().includes("hello")) {
+        response = "Hello! How can I assist you today?";
+    } else if (userInput.toLowerCase().includes("how are you")) {
+        response = "I'm just a simple HTML assistant, but thank you for asking!";
+    } else if (userInput.toLowerCase().includes("time")) {
+        response = "The current time is: " + new Date().toLocaleTimeString();
+    } else {
+        response = "Sorry, I couldn't understand that.";
+    }
+
+    // Display assistant message
+    displayMessage("Assistant: " + response, "assistant-message", chatContainer);
+}
+
+function displayMessage(text, className, container) {
+    var messageElement = document.createElement("div");
+    messageElement.classList.add("message", className);
+    messageElement.textContent = text;
+    container.appendChild(messageElement);
+    // Scroll to bottom
+    container.scrollTop = container.scrollHeight;
 }
