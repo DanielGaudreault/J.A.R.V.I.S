@@ -4,39 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple AI Assistant</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .chat-container {
-            width: 300px;
-            margin: 50px auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            overflow-y: scroll;
-            max-height: 300px;
-        }
-        .message {
-            margin-bottom: 10px;
-            padding: 5px;
-            border-radius: 5px;
-        }
-        .user-message {
-            background-color: #f0f0f0;
-            text-align: right;
-        }
-        .assistant-message {
-            background-color: #e6ffe6;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="chat-container" id="chat-container">
-        <div class="message assistant-message">Hello! How can I assist you today?</div>
+    <div class="container">
+        <div class="chat-container" id="chat-container">
+            <div class="message assistant-message">Hello! How can I assist you today?</div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
     </div>
-    <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.keyCode==13) sendMessage()">
-    <button onclick="sendMessage()">Send</button>
 
     <script>
         function sendMessage() {
