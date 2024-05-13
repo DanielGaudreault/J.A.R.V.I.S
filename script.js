@@ -11,30 +11,27 @@ function sendMessage() {
     // Clear input field
     document.getElementById("user-input").value = "";
 
-    // Generate response
+    // Simulate backend processing with AJAX
     setTimeout(function() {
-        var assistantResponse = generateResponse(userInput);
-        var assistantMessageElement = document.createElement("div");
-        assistantMessageElement.classList.add("message", "assistant-message");
-        assistantMessageElement.textContent = "Assistant: " + assistantResponse;
-        chatContainer.appendChild(assistantMessageElement);
-
-        // Scroll to bottom
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+        simulateBackendProcessing(userInput, chatContainer);
     }, 500);
 }
 
-function generateResponse(userInput) {
-    // Simple responses based on user input
-    if (userInput.toLowerCase().includes("hello")) {
-        return "Hello! How can I assist you today?";
-    } else if (userInput.toLowerCase().includes("how are you")) {
-        return "I'm just a simple HTML assistant, but thank you for asking!";
-    } else if (userInput.toLowerCase().includes("time")) {
-        return "The current time is: " + new Date().toLocaleTimeString();
-    } else {
-        return "Sorry, I can't do that without backend processing.";
-    }
+function simulateBackendProcessing(userInput, chatContainer) {
+    // Simulate AJAX call to JSON file (replace with actual backend endpoint)
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            var assistantMessageElement = document.createElement("div");
+            assistantMessageElement.classList.add("message", "assistant-message");
+            assistantMessageElement.textContent = "Assistant: " + response[userInput.toLowerCase()] || "Sorry, I couldn't understand that.";
+            chatContainer.appendChild(assistantMessageElement);
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    };
+    // Replace 'responses.json' with your backend endpoint
+    xhr.open("GET", "responses.json", true);
+    xhr.send();
 }
-
-document.getElementById("sendButton").addEventListener("click", sendMessage);
