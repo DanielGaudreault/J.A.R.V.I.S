@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J.A.R.V.I.S.</title>
+    <title>Jarvis</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="chat-window" id="chat-window"></div>
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Speak or type your command...">
-            <button id="sendButton">Send</button>
-        </div>
+        <h1>Welcome to Jarvis</h1>
+        <input type="text" id="userInput" placeholder="Ask Jarvis...">
+        <button onclick="sendCommand()">Send</button>
+        <div id="response"></div>
     </div>
     <script src="script.js"></script>
 </body>
