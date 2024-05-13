@@ -1,21 +1,42 @@
 document.getElementById("sendButton").addEventListener("click", function() {
+    sendMessage();
+});
+
+document.getElementById("userInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
     var userInput = document.getElementById("userInput").value;
-    displayResponse("You: " + userInput);
-    // Clear input field after processing
+    if (userInput.trim() === "") {
+        return;
+    }
+    displayMessage("You", userInput);
     document.getElementById("userInput").value = "";
-    // Simulate Jarvis response
     setTimeout(function() {
         var response = generateResponse(userInput);
-        displayResponse("Jarvis: " + response);
-    }, 500);
-});
+        displayMessage("Jarvis", response);
+    }, Math.random() * 1000 + 500);
+}
 
 function generateResponse(userInput) {
     // Simulate Jarvis's response based on user input
-    return "I'm sorry, I'm just a simple assistant and can't answer that.";
+    if (userInput.toLowerCase().includes("hello")) {
+        return "Hello! How can I assist you today?";
+    } else if (userInput.toLowerCase().includes("weather")) {
+        return "Let me check... It looks like it's sunny with a high of 75°F.";
+    } else {
+        return "I'm sorry, I'm just a simple assistant and can't answer that.";
+    }
 }
 
-function displayResponse(response) {
-    var responseContainer = document.getElementById("response");
-    responseContainer.innerHTML += "<p>" + response + "</p>";
+function displayMessage(sender, message) {
+    var chatBox = document.getElementById("chatBox");
+    var messageElement = document.createElement("div");
+    messageElement.classList.add("message");
+    messageElement.innerHTML = "<strong>" + sender + ":</strong> " + message;
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
