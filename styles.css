@@ -8,8 +8,8 @@ body {
     color: #333;
 }
 
-/* Center the container vertically and horizontally */
-.container, .gcse-search {
+/* Center everything vertically and horizontally */
+.container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,4 +22,10 @@ body {
     margin: 0;
     font-size: 24px;
     font-weight: bold;
+}
+
+/* Center the Google Custom Search results */
+.gsc-webResult {
+    display: flex;
+    justify-content: center;
 }
