@@ -19,8 +19,8 @@ function sendMessage() {
 }
 
 function searchGoogle(query) {
-    var apiKey = "YOUR_API_KEY"; // Replace with your Google API key
-    var cx = "YOUR_SEARCH_ENGINE_ID"; // Replace with your Google Search Engine ID
+    var apiKey = "AIzaSyCksB_LXCIFFR9o2OrCK7i-nsEqX9tvplE"; // Replace with your Google API key
+    var cx = "jarvis-423300"; // Replace with your Google Search Engine ID
     var url = "https://www.googleapis.com/customsearch/v1?key=" + apiKey + "&cx=" + cx + "&q=" + encodeURIComponent(query);
 
     fetch(url)
