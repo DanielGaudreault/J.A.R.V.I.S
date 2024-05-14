@@ -1,5 +1,0 @@
-{
-    "hello": "Hello! How can I assist you today?",
-    "how are you": "I'm just a simple HTML assistant, but thank you for asking!",
-    "time": "The current time is: " + new Date().toLocaleTimeString()
-}
