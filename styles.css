@@ -1,32 +1,34 @@
-/* styles.css */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
-/* Apply a background color and set text color */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    opacity: 0; /* Initially hide the container */
+    animation: fadeIn 1s forwards; /* Apply fade-in animation */
+}
+
+h1 {
     color: #333;
 }
 
-/* Center everything vertically and horizontally */
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Use viewport height */
+.gcse-searchbox-only {
+    text-align: center;
+    margin-top: 20px;
 }
 
-/* Style the title */
-.container h1 {
-    margin: 40px 0 20px; /* Add margin to lower the title */
+.intro-message {
     font-size: 24px;
-    font-weight: bold;
-}
-
-/* Center the Google Custom Search results */
-.gcse-search {
-    margin-top: 20px; /* Adjust margin to move search results lower */
-    display: flex;
-    justify-content: center;
+    margin-bottom: 20px;
 }
