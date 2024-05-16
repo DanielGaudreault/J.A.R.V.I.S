@@ -8,7 +8,7 @@
 }
 
 .container {
-    width: 90%; /* Adjusted width to make it wider */
+    width: 90% !important; /* Adjusted width to make it wider */
     margin: 0 auto;
     padding: 50px; /* Increased padding */
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
