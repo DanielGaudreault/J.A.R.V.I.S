@@ -8,10 +8,10 @@
 }
 
 .container {
-    max-width: 600px;
+    max-width: 90%; /* Adjusted width to fit better */
     margin: 0 auto;
-    padding: 20px;
-    background-color: #fff; /* Default background color */
+    padding: 50px; /* Increased padding */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -26,8 +26,8 @@ h1 {
 .gcse-searchbox-only {
     text-align: center;
     margin-top: 20px;
-    max-width: 300px;
-    margin: auto;
+    max-width: 300px; /* Adjusted max-width for search box */
+    margin: auto; /* Center align search box */
 }
 
 .intro-message {
