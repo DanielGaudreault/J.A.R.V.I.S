@@ -23,7 +23,7 @@ This web page serves as a search interface for users to easily search for conten
 - Background image: [Source of the background image, if applicable]
 
 ## Author
-[Your Name]
+Daniel Gaudreault
 
 ## Contact
 [Your Contact Information]
