@@ -11,7 +11,7 @@ This web page serves as a search interface for users to easily search for conten
   - **main logo 2.png**: Main logo used in the web page.
 
 ## Usage
-1. Open `index.html` in a web browser to view the search page.
+1. Open [index.html](https://danielgaudreault.github.io/J.A.R.V.I.S/index.html) in a web browser to view the search page.
 2. Enter your search query in the search box and press Enter or click the search button to perform a search.
 
 ## Customization
