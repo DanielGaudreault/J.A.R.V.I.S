@@ -1,8 +1,17 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #fff; /* Default background color */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -17,6 +26,8 @@ h1 {
 .gcse-searchbox-only {
     text-align: center;
     margin-top: 20px;
+    max-width: 300px;
+    margin: auto;
 }
 
 .intro-message {
@@ -24,11 +35,16 @@ h1 {
     margin-bottom: 20px;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.home-button {
+    display: inline-block;
+    background-image: url('images/main logo 2.png');
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    text-indent: -9999px;
+    transition: transform 0.3s;
+}
+
+.home-button:hover {
+    transform: scale(1.1);
 }
