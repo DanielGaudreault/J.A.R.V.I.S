@@ -8,15 +8,15 @@
 }
 
 .container {
-    max-width: 90%; /* Adjusted width to fit better */
+    max-width: 100%; /* Adjusted width to fit better */
     margin: 0 auto;
     padding: 50px; /* Increased padding */
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-    border-radius: 50px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     opacity: 0;
-    animation: fadeIn 1s forwards;
+    animation: fadeIn 2s forwards;
 }
 
 h1 {
