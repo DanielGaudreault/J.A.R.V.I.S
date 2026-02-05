@@ -3,55 +3,436 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
+    <title>Search Results - J.A.R.V.I.S</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            color: #f0f0f0;
+            padding: 20px;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .title-section h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #00d4ff, #0088ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .title-section p {
+            color: #aaa;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .nav-button:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .nav-button i {
+            font-size: 1.2rem;
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .search-header h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .search-icon {
+            background: linear-gradient(135deg, #00d4ff, #0088ff);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Google Custom Search Styling */
+        .gcse-search {
+            margin-top: 20px;
+        }
+
+        /* Custom styling for Google Search results */
+        .gsc-control-cse {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        .gsc-input-box {
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-radius: 12px !important;
+            height: 50px !important;
+        }
+
+        .gsc-input {
+            color: #fff !important;
+            font-family: 'Roboto', sans-serif !important;
+            font-size: 1rem !important;
+        }
+
+        .gsc-search-button-v2 {
+            background: linear-gradient(135deg, #00d4ff, #0088ff) !important;
+            border: none !important;
+            border-radius: 12px !important;
+            padding: 12px 25px !important;
+            font-family: 'Roboto', sans-serif !important;
+            font-weight: 500 !important;
+        }
+
+        .gsc-search-button-v2:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4) !important;
+        }
+
+        .gsc-results-wrapper-overlay {
+            background: rgba(15, 32, 39, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 15px !important;
+        }
+
+        .gsc-webResult.gsc-result {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border-radius: 10px !important;
+            padding: 20px !important;
+            margin-bottom: 15px !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .gsc-webResult.gsc-result:hover {
+            background: rgba(255, 255, 255, 0.06) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+            border-color: rgba(0, 212, 255, 0.2) !important;
+        }
+
+        .gs-title {
+            color: #00d4ff !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 1.2rem !important;
+            text-decoration: none !important;
+        }
+
+        .gs-title:hover {
+            text-decoration: underline !important;
+            color: #0088ff !important;
+        }
+
+        .gs-snippet {
+            color: #ccc !important;
+            font-family: 'Roboto', sans-serif !important;
+            line-height: 1.6 !important;
+        }
+
+        .gs-url {
+            color: #888 !important;
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        .gsc-table-result {
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        /* Stats and pagination styling */
+        .gsc-result-info {
+            color: #aaa !important;
+            font-family: 'Roboto', sans-serif !important;
+            padding: 15px 0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .gsc-orderby-container {
+            color: #aaa !important;
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        .gsc-orderby-label {
+            color: #aaa !important;
+        }
+
+        /* Footer */
+        .footer {
             text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        h1 {
-            color: #333;
+        .footer a {
+            color: #00d4ff;
+            text-decoration: none;
         }
 
-        .home-button {
-            display: inline-block;
-            background-image: url('images/main logo 2.png');
-            width: 100px; /* Adjust the width of the button */
-            height: 100px; /* Adjust the height of the button */
-            background-size: cover;
-            text-indent: -9999px; /* Hide the text */
-            transition: transform 0.3s;
+        .footer a:hover {
+            text-decoration: underline;
         }
 
-        .home-button:hover {
-            transform: scale(1.1); /* Add a slight scale effect on hover */
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .logo-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .title-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-container {
+                padding: 20px;
+            }
+            
+            .search-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Loading animation for search */
+        .search-loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .search-loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top: 5px solid #00d4ff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Search Results</h1>
-        <!-- Google Custom Search Engine script -->
-        <script async src="https://cse.google.com/cse.js?cx=174a08c14d30f4a84"></script>
-        <!-- Google Custom Search Box -->
-        <div class="gcse-search"></div>
+        <!-- Header with logo and navigation -->
+        <header class="header">
+            <div class="logo-section">
+                <img src="images/main logo 2.png" alt="J.A.R.V.I.S Logo" class="logo">
+                <div class="title-section">
+                    <h1>J.A.R.V.I.S Search</h1>
+                    <p>Your Intelligent Search Assistant</p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <a href="index.html" class="nav-button">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="nav-button" onclick="window.location.reload()">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Refresh</span>
+                </a>
+            </div>
+        </header>
 
-        <!-- Your search results display here -->
+        <!-- Search Container -->
+        <main class="search-container">
+            <div class="search-header">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h2>Search the Web</h2>
+            </div>
+            
+            <!-- Loading indicator -->
+            <div class="search-loading" id="loading">
+                <div class="spinner"></div>
+                <p>Searching...</p>
+            </div>
 
-        <!-- Home Button -->
-        <a href="index.html" class="home-button" aria-label="Home"></a>
+            <!-- Google Custom Search Engine -->
+            <script async src="https://cse.google.com/cse.js?cx=174a08c14d30f4a84"></script>
+            <div class="gcse-search"></div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2023 J.A.R.V.I.S Search. Created by Daniel Gaudreault</p>
+            <p>Powered by Google Custom Search</p>
+            <p><a href="index.html">Back to Main Search</a></p>
+        </footer>
     </div>
+
+    <script>
+        // Add loading indicator when search is being performed
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.querySelector('.gsc-input-box');
+            const loadingIndicator = document.getElementById('loading');
+            
+            if (searchBox) {
+                const searchInput = searchBox.querySelector('input');
+                if (searchInput) {
+                    searchInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            loadingIndicator.classList.add('active');
+                        }
+                    });
+                }
+            }
+            
+            // Listen for Google CSE load
+            window.addEventListener('load', function() {
+                // Check if results are loaded
+                setTimeout(() => {
+                    loadingIndicator.classList.remove('active');
+                }, 1000);
+            });
+            
+            // Add some dynamic styling
+            const style = document.createElement('style');
+            style.textContent = `
+                .gsc-search-box-tools .gsc-search-box .gsc-input {
+                    padding-right: 50px !important;
+                }
+                
+                .gsc-search-button {
+                    transition: all 0.3s ease !important;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
 </body>
 </html>
