@@ -1,398 +1,88 @@
-<!DOCTYPE html>
+can you update My index file as well <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J.A.R.V.I.S - Intelligent Search Assistant</title>
-    
-    <!-- External Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="images/MyLogo.png" type="image/x-icon">
-    
+    <title>The Search</title>
     <!-- Google Custom Search Engine script -->
     <script async src="https://cse.google.com/cse.js?cx=174a08c14d30f4a84"></script>
-    
+    <link rel="stylesheet" href="styles.css">
+    <!-- Favicon -->
+    <link rel="icon" href="images/MyLogo.png" type="image/x-icon">
     <style>
-        /* Additional inline styles for specific elements */
-        .intro-message {
-            font-size: 2.2rem;
-            margin-bottom: 40px;
-            color: var(--text-light);
-            font-weight: 300;
-            line-height: 1.4;
-            position: relative;
-            padding-bottom: 20px;
-        }
-
-        .intro-message::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: var(--gradient-primary);
-            border-radius: 2px;
-        }
-
-        .accent-text {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 600;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: var(--text-medium);
-            margin-bottom: 50px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
-        }
-
-        .powered-by {
-            margin-top: 40px;
-            color: var(--text-dark);
-            font-size: 0.9rem;
+        body {
+            background-image: url('images/city wallpaper.jpg'); /* Updated path */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 10px;
-        }
-
-        .google-logo {
-            width: 80px;
-            height: auto;
-            filter: grayscale(100%) brightness(2);
-            transition: filter 0.3s ease;
-        }
-
-        .google-logo:hover {
-            filter: grayscale(0%) brightness(1);
-        }
-
-        .search-hints {
-            background: rgba(0, 212, 255, 0.05);
-            border: 1px solid rgba(0, 212, 255, 0.1);
-            border-radius: var(--border-radius-md);
-            padding: 20px;
-            margin: 40px 0;
-            text-align: left;
-        }
-
-        .search-hints h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            display: flex;
             align-items: center;
-            gap: 10px;
+            height: 100vh;
+            margin: 0;
         }
 
-        .hint-list {
-            list-style: none;
-            padding: 0;
+        .container {
+            max-width: 45%; /* Adjusted max-width to make it wider */
+            margin: 0 auto;
+            padding: 50px; /* Increased padding */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
         }
 
-        .hint-list li {
-            padding: 8px 0;
-            color: var(--text-medium);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        h1 {
+            color: #333;
         }
 
-        .hint-list li i {
-            color: var(--primary-color);
-            font-size: 0.9rem;
+        .gcse-searchbox-only {
+            text-align: center;
+            margin-top: 20px;
+            max-width: 300px; /* Adjusted max-width for search box */
+            margin: auto; /* Center align search box */
         }
 
-        /* Welcome animation */
-        @keyframes welcomeSlide {
+        .intro-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .home-button {
+            display: inline-block;
+            background-image: url('images/MyLogo.png'); /* Reinstated main logo */
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            text-indent: -9999px;
+            transition: transform 0.3s;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
-        }
-
-        .welcome-text {
-            animation: welcomeSlide 1s ease-out;
-        }
-
-        /* Search box enhancements */
-        .search-instruction {
-            color: var(--text-medium);
-            font-size: 1rem;
-            margin: 20px 0;
-            font-style: italic;
-        }
-
-        /* Logo animation specific for homepage */
-        .main-logo {
-            animation: pulse 2s infinite, float 4s ease-in-out infinite;
-        }
-
-        @keyframes logoGlow {
-            0%, 100% {
-                filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
-            }
-            50% {
-                filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.8));
-            }
-        }
-
-        /* Quick search buttons */
-        .quick-search {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        .quick-btn {
-            padding: 12px 25px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-lg);
-            color: var(--text-light);
-            cursor: pointer;
-            transition: var(--transition-fast);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .quick-btn:hover {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <div class="logo-section">
-                <img src="images/MyLogo.png" alt="J.A.R.V.I.S Logo" class="logo main-logo">
-                <div class="title-section welcome-text">
-                    <h1>J<span class="accent-text">.</span>A<span class="accent-text">.</span>R<span class="accent-text">.</span>V<span class="accent-text">.</span>I<span class="accent-text">.</span>S</h1>
-                    <p class="subtitle">Just A Rather Very Intelligent System</p>
-                </div>
-            </div>
-            <div class="nav-buttons">
-                <a href="search-results.html" class="nav-button secondary">
-                    <i class="fas fa-search"></i>
-                    <span>View Results</span>
-                </a>
-                <a href="#" class="nav-button" onclick="document.querySelector('.gcse-searchbox-only input').focus()">
-                    <i class="fas fa-keyboard"></i>
-                    <span>Start Typing</span>
-                </a>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main>
-            <!-- Welcome Message -->
-            <div class="intro-section">
-                <div class="intro-message">
-                    Welcome to <span class="accent-text">J.A.R.V.I.S</span><br>
-                    Your Intelligent Search Assistant
-                </div>
-                
-                <p class="tagline">
-                    Experience the future of search with our AI-powered assistant. 
-                    Find exactly what you're looking for with intelligent suggestions 
-                    and personalized results.
-                </p>
-            </div>
-
-            <!-- Quick Search Suggestions -->
-            <div class="quick-search">
-                <button class="quick-btn" onclick="searchFor('AI technology')">
-                    <i class="fas fa-robot"></i> AI Technology
-                </button>
-                <button class="quick-btn" onclick="searchFor('Latest news')">
-                    <i class="fas fa-newspaper"></i> Latest News
-                </button>
-                <button class="quick-btn" onclick="searchFor('Web development')">
-                    <i class="fas fa-code"></i> Web Development
-                </button>
-                <button class="quick-btn" onclick="searchFor('Technology trends')">
-                    <i class="fas fa-chart-line"></i> Tech Trends
-                </button>
-            </div>
-
-            <!-- Search Box -->
-            <div class="search-container">
-                <div class="search-title">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h2>Search Anything</h2>
-                </div>
-                
-                <p class="search-instruction">Type your query and press Enter to explore the web</p>
-                
-                <!-- Google Custom Search Box -->
-                <div class="gcse-searchbox-only"></div>
-                
-                <p class="search-instruction">Try searching for specific topics or ask questions naturally</p>
-            </div>
-
-            <!-- Search Tips -->
-            <div class="search-hints">
-                <h3><i class="fas fa-lightbulb"></i> Search Tips</h3>
-                <ul class="hint-list">
-                    <li><i class="fas fa-check"></i> Use specific keywords for better results</li>
-                    <li><i class="fas fa-check"></i> Try natural language questions</li>
-                    <li><i class="fas fa-check"></i> Use quotes for exact phrase matches</li>
-                    <li><i class="fas fa-check"></i> Add site:example.com to search within specific sites</li>
-                    <li><i class="fas fa-check"></i> Use - to exclude certain terms from results</li>
-                </ul>
-            </div>
-
-            <!-- Features -->
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="feature-title">Lightning Fast</h3>
-                    <p class="feature-description">Get instant results with our optimized search technology</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3 class="feature-title">AI Powered</h3>
-                    <p class="feature-description">Intelligent algorithms understand your search intent</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Privacy Focused</h3>
-                    <p class="feature-description">Your searches are secure and private</p>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-links">
-                <a href="search-results.html" class="footer-link">Search Results</a>
-                <a href="#" class="footer-link" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Back to Top</a>
-                <a href="https://github.com/yourusername" class="footer-link">GitHub</a>
-            </div>
-            
-            <div class="powered-by">
-                <span>Powered by</span>
-                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_92x30dp.png" 
-                     alt="Google" class="google-logo">
-                <span>Custom Search</span>
-            </div>
-            
-            <div class="copyright">
-                <p>&copy; 2023 J.A.R.V.I.S Search. Created by Daniel Gaudreault</p>
-                <p>LDG - Intelligent Search Solutions</p>
-            </div>
-        </footer>
+        <h1>LDG</h1>
+        <div class="intro-message"></div>
+        <!-- Google Custom Search Box -->
+        <div class="gcse-searchbox-only"></div>
+        <!-- Home Button -->
+        <a href="index.html" class="home-button" aria-label="Home"></a>
     </div>
-
-    <script>
-        // Quick search functionality
-        function searchFor(query) {
-            const searchInput = document.querySelector('.gsc-input');
-            if (searchInput) {
-                searchInput.value = query;
-                searchInput.focus();
-                
-                // Trigger search if search button is available
-                const searchButton = document.querySelector('.gsc-search-button');
-                if (searchButton) {
-                    searchButton.click();
-                }
-            }
-        }
-
-        // Focus search input on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add animation to features on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe feature cards
-            document.querySelectorAll('.feature-card').forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(card);
-            });
-
-            // Auto-focus search input after a short delay
-            setTimeout(() => {
-                const searchInput = document.querySelector('.gsc-input');
-                if (searchInput) {
-                    searchInput.focus();
-                }
-            }, 1000);
-
-            // Add keyboard shortcut (Ctrl+K or Cmd+K) to focus search
-            document.addEventListener('keydown', function(e) {
-                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                    e.preventDefault();
-                    const searchInput = document.querySelector('.gsc-input');
-                    if (searchInput) {
-                        searchInput.focus();
-                    }
-                }
-            });
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
