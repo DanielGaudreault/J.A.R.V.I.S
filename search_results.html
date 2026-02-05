@@ -98,13 +98,13 @@
             background-size: 200% auto;
         }
 
-        /* Header matching main page */
+        /* Header matching main page with larger logo */
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 40px;
-            padding: 25px;
+            padding: 30px;
             background: var(--bg-light);
             border-radius: var(--border-radius-lg);
             border: 1px solid var(--border-color);
@@ -114,33 +114,51 @@
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 30px;
         }
 
+        /* Larger logo styling */
         .logo {
-            width: 80px;
-            height: 80px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--primary-color);
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
             animation: pulse 2s infinite;
             transition: var(--transition-fast);
+            position: relative;
         }
 
         .logo:hover {
-            transform: rotate(5deg) scale(1.05);
+            transform: rotate(5deg) scale(1.1);
             animation: none;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Pulsating ring effect for logo */
+        .logo::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            right: -12px;
+            bottom: -12px;
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulseRing 3s infinite;
+            pointer-events: none;
         }
 
         .title-section h1 {
             font-family: var(--font-heading);
-            font-size: 2.8rem;
+            font-size: 3rem;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 700;
             letter-spacing: 1px;
             position: relative;
@@ -150,17 +168,17 @@
         .title-section h1::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -8px;
             left: 10%;
             width: 80%;
-            height: 3px;
+            height: 4px;
             background: var(--gradient-primary);
             border-radius: 2px;
         }
 
         .title-section .subtitle {
             color: var(--text-medium);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -473,7 +491,7 @@
             margin: 0 auto 20px;
         }
 
-        /* Animations matching main page */
+        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -496,10 +514,25 @@
 
         @keyframes pulse {
             0%, 100% {
-                box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+                box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
             }
             50% {
-                box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+                box-shadow: 0 0 50px rgba(0, 212, 255, 0.9);
+            }
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0.3;
             }
         }
 
@@ -528,14 +561,19 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Responsive Design matching main page */
+        /* Responsive Design */
         @media (max-width: 1024px) {
             .container {
                 padding: 30px;
             }
             
             .title-section h1 {
-                font-size: 2.4rem;
+                font-size: 2.5rem;
+            }
+            
+            .logo {
+                width: 120px;
+                height: 120px;
             }
         }
 
@@ -553,10 +591,16 @@
             
             .logo-section {
                 flex-direction: column;
+                gap: 20px;
             }
             
             .title-section h1 {
                 font-size: 2rem;
+            }
+            
+            .logo {
+                width: 100px;
+                height: 100px;
             }
             
             .search-container {
@@ -582,6 +626,11 @@
                 font-size: 1.8rem;
             }
             
+            .logo {
+                width: 90px;
+                height: 90px;
+            }
+            
             .nav-buttons {
                 flex-direction: column;
                 align-items: center;
@@ -595,6 +644,10 @@
             .search-header {
                 flex-direction: column;
                 gap: 10px;
+            }
+            
+            .title-section .subtitle {
+                font-size: 1rem;
             }
         }
     </style>
@@ -692,6 +745,17 @@
                     });
                 });
             });
+            
+            // Add click animation to logo
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                logo.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.2) rotate(15deg)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 500);
+                });
+            }
         });
     </script>
 </body>
