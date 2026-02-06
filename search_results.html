@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results - J.A.R.V.I.S</title>
-    <!-- NEW Google Custom Search Engine -->
+    <!-- Google Custom Search Engine -->
     <script async src="https://cse.google.com/cse.js?cx=44c8a3cb5b6a54a72"></script>
     <style>
         /* RESET AND BASE STYLES */
@@ -57,24 +57,13 @@
             display: block !important; /* Force display */
             visibility: visible !important; /* Force visibility */
             opacity: 1 !important; /* Force opacity */
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        /* If image doesn't load, show text */
-        .results-logo::after {
-            content: "LDG";
-            display: none; /* Only shows if image fails */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #00d4ff;
-            font-weight: bold;
-            font-size: 24px;
-        }
-
-        .results-logo[src=""]::after,
-        .results-logo:not([src])::after {
-            display: block;
+        .results-logo:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
         }
 
         .header-title h1 {
@@ -134,6 +123,7 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            min-height: 500px;
         }
 
         .results-title {
@@ -165,12 +155,21 @@
             box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
         }
 
-        /* GOOGLE CUSTOM SEARCH STYLING */
-        .gcse-search {
-            margin-top: 20px;
+        /* SEARCH BOX AT TOP OF RESULTS */
+        .results-search-box {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
-        /* Override Google CSE styles */
+        /* Google Custom Search Results Container */
+        .gcse-search {
+            min-height: 400px;
+        }
+
+        /* GOOGLE CSE STYLES - UPDATED FOR BETTER COMPATIBILITY */
         .gsc-control-cse {
             background: transparent !important;
             border: none !important;
@@ -178,12 +177,14 @@
             font-family: inherit !important;
         }
 
+        /* Search Box Styling */
         .gsc-input-box {
             border: 2px solid #ddd !important;
             border-radius: 30px !important;
             background: white !important;
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.08) !important;
             padding: 5px !important;
+            height: 55px !important;
         }
 
         .gsc-input {
@@ -191,6 +192,7 @@
             font-size: 16px !important;
             padding: 12px 20px !important;
             font-family: inherit !important;
+            height: 100% !important;
         }
 
         .gsc-search-button-v2 {
@@ -202,11 +204,17 @@
             font-weight: 600 !important;
             font-size: 16px !important;
             transition: all 0.3s ease !important;
+            margin-left: 10px !important;
         }
 
         .gsc-search-button-v2:hover {
             transform: translateY(-2px) !important;
             box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4) !important;
+        }
+
+        /* Results Styling */
+        .gsc-results {
+            width: 100% !important;
         }
 
         .gsc-webResult.gsc-result {
@@ -216,11 +224,12 @@
             margin-bottom: 20px !important;
             background: white !important;
             transition: all 0.3s ease !important;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08) !important;
         }
 
         .gsc-webResult.gsc-result:hover {
             transform: translateY(-5px) !important;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important;
             border-color: #00d4ff !important;
         }
 
@@ -229,6 +238,9 @@
             font-size: 1.4rem !important;
             font-weight: 600 !important;
             text-decoration: none !important;
+            line-height: 1.4 !important;
+            margin-bottom: 8px !important;
+            display: block !important;
         }
 
         .gs-title:hover {
@@ -247,6 +259,29 @@
             color: #888 !important;
             font-size: 0.9rem !important;
             margin-top: 8px !important;
+            display: block !important;
+        }
+
+        /* Pagination and info */
+        .gsc-result-info {
+            color: #666 !important;
+            font-size: 1rem !important;
+            padding: 20px 0 !important;
+            border-bottom: 2px solid #00d4ff !important;
+            margin-bottom: 30px !important;
+        }
+
+        /* No Results Styling */
+        .gsc-no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .gsc-no-results h2 {
+            color: #333;
+            margin-bottom: 20px;
         }
 
         /* FOOTER */
@@ -264,6 +299,29 @@
 
         .results-footer p {
             margin: 10px 0;
+        }
+
+        /* LOADING INDICATOR */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #00d4ff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* ANIMATIONS */
@@ -336,6 +394,16 @@
             .results-title h2 {
                 font-size: 1.8rem;
             }
+            
+            .gsc-input-box {
+                height: 50px !important;
+            }
+            
+            .gsc-search-button-v2 {
+                padding: 12px 20px !important;
+                margin-top: 10px !important;
+                width: 100% !important;
+            }
         }
 
         @media (max-width: 480px) {
@@ -362,33 +430,17 @@
                 font-size: 1.5rem;
             }
         }
-
-        /* FALLBACK STYLES FOR LOGO */
-        .logo-fallback {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00d4ff, #0088ff);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 28px;
-            border: 5px solid white;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
-        }
     </style>
 </head>
 <body>
-    <!-- HEADER WITH FORCED LOGO -->
+    <!-- HEADER -->
     <header class="results-header">
         <div class="header-left">
-            <!-- Force logo to show with multiple approaches -->
             <img src="images/MyLogo.png" 
                  alt="J.A.R.V.I.S Logo" 
                  class="results-logo"
-                 onerror="this.onerror=null; this.src=''; this.className='logo-fallback'; this.style.display='block'; this.innerHTML='LDG';">
+                 onclick="window.location.href='index.html'"
+                 title="Click to go home">
             
             <div class="header-title">
                 <h1>J.A.R.V.I.S Search</h1>
@@ -417,8 +469,19 @@
             <h2>Search Results</h2>
         </div>
         
-        <!-- NEW Google Custom Search Results -->
-        <div class="gcse-search"></div>
+        <!-- Loading Indicator -->
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Loading search results...</p>
+        </div>
+        
+        <!-- Google Custom Search Results -->
+        <div class="gcse-search" style="display: none;" id="searchResults"></div>
+        
+        <!-- Manual Search Box for Testing -->
+        <div class="results-search-box">
+            <div class="gcse-searchbox-only" data-resultsUrl="search-results.html"></div>
+        </div>
     </main>
 
     <!-- FOOTER -->
@@ -431,71 +494,111 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
-        // FORCE LOGO TO LOAD - Multiple fallback methods
         document.addEventListener('DOMContentLoaded', function() {
-            const logo = document.querySelector('.results-logo');
-            
-            // Method 1: Check if logo loaded
-            if (logo) {
-                logo.onerror = function() {
-                    // If image fails, create fallback
-                    const parent = this.parentElement;
-                    const fallback = document.createElement('div');
-                    fallback.className = 'logo-fallback';
-                    fallback.textContent = 'LDG';
-                    fallback.style.display = 'flex';
-                    fallback.style.alignItems = 'center';
-                    fallback.style.justifyContent = 'center';
-                    
-                    parent.replaceChild(fallback, this);
-                };
-                
-                // Method 2: Force reload image
-                setTimeout(() => {
-                    const src = logo.src;
-                    logo.src = '';
-                    setTimeout(() => {
-                        logo.src = src;
-                    }, 100);
-                }, 500);
-                
-                // Method 3: Add click to test
-                logo.addEventListener('click', function() {
-                    this.style.transform = 'scale(1.1) rotate(5deg)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 300);
-                });
-            }
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const searchResults = document.getElementById('searchResults');
             
             // Get search query from URL
             const urlParams = new URLSearchParams(window.location.search);
-            const searchQuery = urlParams.get('q');
+            let searchQuery = urlParams.get('q');
             
-            if (searchQuery) {
-                // Wait for Google CSE to load
-                const checkCSE = setInterval(function() {
-                    const searchInput = document.querySelector('.gsc-input');
-                    if (searchInput) {
-                        clearInterval(checkCSE);
-                        // Set the search query
-                        searchInput.value = decodeURIComponent(searchQuery);
-                        
-                        // Trigger search
-                        setTimeout(() => {
-                            const searchButton = document.querySelector('.gsc-search-button-v2');
-                            if (searchButton) {
-                                searchButton.click();
-                            }
-                        }, 800);
+            console.log('Initial search query:', searchQuery);
+            
+            // Initialize Google CSE
+            window.__gcse = {
+                parsetags: 'explicit',
+                initializationCallback: function() {
+                    console.log('Google CSE initialized');
+                    
+                    // Show the search results container
+                    if (searchResults) {
+                        searchResults.style.display = 'block';
                     }
-                }, 100);
+                    
+                    // Hide loading indicator
+                    if (loadingIndicator) {
+                        loadingIndicator.style.display = 'none';
+                    }
+                    
+                    // If there's a search query, execute it
+                    if (searchQuery) {
+                        searchQuery = decodeURIComponent(searchQuery);
+                        console.log('Executing search for:', searchQuery);
+                        
+                        // Execute the search
+                        try {
+                            const element = google.search.cse.element.getElement('searchResults');
+                            if (element) {
+                                element.execute(searchQuery);
+                                console.log('Search executed');
+                            }
+                        } catch (error) {
+                            console.error('Error executing search:', error);
+                            
+                            // Fallback: try to set the search box value
+                            setTimeout(() => {
+                                const searchInput = document.querySelector('.gsc-input');
+                                if (searchInput) {
+                                    searchInput.value = searchQuery;
+                                    console.log('Search input set to:', searchQuery);
+                                }
+                            }, 1000);
+                        }
+                    }
+                }
+            };
+            
+            // Alternative method: Wait for Google CSE to load
+            setTimeout(function() {
+                console.log('Checking for Google CSE...');
+                
+                // Check if Google CSE is loaded
+                if (typeof google !== 'undefined' && google.search && google.search.cse) {
+                    console.log('Google CSE found, initializing...');
+                    
+                    // Hide loading
+                    if (loadingIndicator) {
+                        loadingIndicator.style.display = 'none';
+                    }
+                    
+                    // Show results
+                    if (searchResults) {
+                        searchResults.style.display = 'block';
+                    }
+                    
+                    // Execute search if query exists
+                    if (searchQuery) {
+                        searchQuery = decodeURIComponent(searchQuery);
+                        console.log('Executing search (alt method):', searchQuery);
+                        
+                        try {
+                            const element = google.search.cse.element.getElement('searchResults');
+                            if (element) {
+                                element.execute(searchQuery);
+                            }
+                        } catch (error) {
+                            console.error('Alternative search error:', error);
+                        }
+                    }
+                } else {
+                    console.log('Google CSE not loaded yet, retrying...');
+                    
+                    // Retry after 1 second
+                    setTimeout(arguments.callee, 1000);
+                }
+            }, 500);
+            
+            // Add click handler to logo
+            const logo = document.querySelector('.results-logo');
+            if (logo) {
+                logo.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
             }
             
-            // Console log for debugging
-            console.log('Search results page loaded');
-            console.log('Logo path:', logo ? logo.src : 'No logo found');
-            console.log('Using Google CSE ID: 44c8a3cb5b6a54a72');
+            // Debug info
+            console.log('Google CSE ID: 44c8a3cb5b6a54a72');
+            console.log('Page URL:', window.location.href);
         });
     </script>
 </body>
