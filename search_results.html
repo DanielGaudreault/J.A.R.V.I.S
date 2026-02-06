@@ -6,15 +6,14 @@
     <title>Search Results - J.A.R.V.I.S</title>
     <!-- Google Custom Search Engine -->
     <script async src="https://cse.google.com/cse.js?cx=174a08c14d30f4a84"></script>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Favicon -->
-    <link rel="icon" href="images/MyLogo.png" type="image/x-icon">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Results page specific styles */
+        /* RESET AND BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background-image: url('images/city wallpaper.jpg');
             background-size: cover;
@@ -23,87 +22,120 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        /* HEADER WITH FORCED LOGO */
         .results-header {
             max-width: 1200px;
             margin: 0 auto 40px;
             padding: 30px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 30px;
         }
-        
+
         .header-left {
             display: flex;
             align-items: center;
             gap: 25px;
         }
-        
+
+        /* FORCED LOGO - This will definitely show */
         .results-logo {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #00d4ff;
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+            border: 5px solid #00d4ff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+            background-color: white; /* Fallback if image doesn't load */
+            display: block !important; /* Force display */
+            visibility: visible !important; /* Force visibility */
+            opacity: 1 !important; /* Force opacity */
         }
-        
+
+        /* If image doesn't load, show text */
+        .results-logo::after {
+            content: "LDG";
+            display: none; /* Only shows if image fails */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .results-logo[src=""]::after,
+        .results-logo:not([src])::after {
+            display: block;
+        }
+
         .header-title h1 {
             color: #333;
             margin: 0;
-            font-size: 2.5rem;
-            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #0088ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
+
         .header-title p {
             color: #666;
-            margin: 5px 0 0;
-            font-size: 1rem;
+            margin: 10px 0 0;
+            font-size: 1.1rem;
+            font-weight: 300;
         }
-        
+
+        /* NAVIGATION BUTTONS */
         .header-nav {
             display: flex;
             gap: 15px;
         }
-        
+
         .nav-btn {
-            padding: 12px 25px;
+            padding: 14px 28px;
             background: linear-gradient(135deg, #00d4ff, #0088ff);
             color: white;
             text-decoration: none;
             border-radius: 30px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
-        
+
         .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
         }
-        
+
         .nav-btn i {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
-        
-        /* Search container */
+
+        /* MAIN SEARCH RESULTS CONTAINER */
         .search-results-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
-        
+
         .results-title {
             display: flex;
             align-items: center;
@@ -112,66 +144,71 @@
             padding-bottom: 20px;
             border-bottom: 2px solid #00d4ff;
         }
-        
+
         .results-title h2 {
             color: #333;
             margin: 0;
-            font-size: 2rem;
-            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 600;
         }
-        
+
         .search-icon {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, #00d4ff, #0088ff);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
         }
-        
-        /* Google Search Results Styling */
+
+        /* GOOGLE CUSTOM SEARCH STYLING */
         .gcse-search {
             margin-top: 20px;
         }
-        
-        /* Customize Google CSE */
+
+        /* Override Google CSE styles */
         .gsc-control-cse {
             background: transparent !important;
             border: none !important;
             padding: 0 !important;
-            font-family: 'Poppins', sans-serif !important;
+            font-family: inherit !important;
         }
-        
+
         .gsc-input-box {
             border: 2px solid #ddd !important;
             border-radius: 30px !important;
             background: white !important;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1) !important;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.08) !important;
+            padding: 5px !important;
         }
-        
+
         .gsc-input {
             color: #333 !important;
             font-size: 16px !important;
             padding: 12px 20px !important;
+            font-family: inherit !important;
         }
-        
+
         .gsc-search-button-v2 {
             background: linear-gradient(135deg, #00d4ff, #0088ff) !important;
             border: none !important;
             border-radius: 30px !important;
-            padding: 12px 25px !important;
-            font-family: 'Poppins', sans-serif !important;
+            padding: 14px 28px !important;
+            font-family: inherit !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
             transition: all 0.3s ease !important;
         }
-        
+
         .gsc-search-button-v2:hover {
             transform: translateY(-2px) !important;
             box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4) !important;
         }
-        
+
         .gsc-webResult.gsc-result {
             border: 1px solid #e0e0e0 !important;
             border-radius: 15px !important;
@@ -180,82 +217,100 @@
             background: white !important;
             transition: all 0.3s ease !important;
         }
-        
+
         .gsc-webResult.gsc-result:hover {
             transform: translateY(-5px) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
             border-color: #00d4ff !important;
         }
-        
+
         .gs-title {
             color: #0088ff !important;
-            font-family: 'Poppins', sans-serif !important;
-            font-size: 1.3rem !important;
-            font-weight: 500 !important;
+            font-size: 1.4rem !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
         }
-        
+
         .gs-title:hover {
             color: #00d4ff !important;
             text-decoration: underline !important;
         }
-        
+
         .gs-snippet {
             color: #666 !important;
-            line-height: 1.6 !important;
-            margin-top: 10px !important;
+            line-height: 1.7 !important;
+            margin-top: 12px !important;
+            font-size: 1rem !important;
         }
-        
+
         .gs-url {
             color: #888 !important;
             font-size: 0.9rem !important;
+            margin-top: 8px !important;
         }
-        
-        /* Footer */
+
+        /* FOOTER */
         .results-footer {
             max-width: 1200px;
             margin: 40px auto 0;
             padding: 30px;
             text-align: center;
             color: #666;
-            font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+
+        .results-footer p {
+            margin: 10px 0;
         }
-        
+
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes logoPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         .results-header {
-            animation: slideIn 0.5s ease-out;
+            animation: fadeIn 0.5s ease-out;
         }
-        
+
+        .results-logo {
+            animation: logoPop 0.6s ease-out 0.2s both;
+        }
+
         .search-results-container {
-            animation: slideIn 0.5s ease-out 0.2s both;
+            animation: fadeIn 0.5s ease-out 0.3s both;
         }
-        
-        /* Responsive */
+
+        /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             .results-header {
                 flex-direction: column;
                 text-align: center;
-                gap: 20px;
+                gap: 25px;
+                padding: 25px;
             }
             
             .header-left {
                 flex-direction: column;
                 text-align: center;
+                gap: 20px;
             }
             
             .results-logo {
-                width: 80px;
-                height: 80px;
+                width: 100px;
+                height: 100px;
             }
             
             .header-title h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .header-nav {
@@ -265,37 +320,95 @@
             
             .nav-btn {
                 justify-content: center;
+                width: 100%;
             }
             
             .search-results-container {
                 padding: 25px;
             }
+            
+            .results-title {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .results-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .results-header,
+            .search-results-container,
+            .results-footer {
+                padding: 20px;
+            }
+            
+            .results-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .header-title h1 {
+                font-size: 1.8rem;
+            }
+            
+            .results-title h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* FALLBACK STYLES FOR LOGO */
+        .logo-fallback {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #0088ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 28px;
+            border: 5px solid white;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- HEADER WITH FORCED LOGO -->
     <header class="results-header">
         <div class="header-left">
-            <img src="images/MyLogo.png" alt="J.A.R.V.I.S Logo" class="results-logo">
+            <!-- Force logo to show with multiple approaches -->
+            <img src="images/MyLogo.png" 
+                 alt="J.A.R.V.I.S Logo" 
+                 class="results-logo"
+                 onerror="this.onerror=null; this.src=''; this.className='logo-fallback'; this.style.display='block'; this.innerHTML='LDG';">
+            
             <div class="header-title">
                 <h1>J.A.R.V.I.S Search</h1>
                 <p>Your Intelligent Search Assistant</p>
             </div>
         </div>
+        
         <div class="header-nav">
             <a href="index.html" class="nav-btn">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
-            <a href="#" onclick="window.location.reload()" class="nav-btn">
+            <button class="nav-btn" onclick="window.location.reload()">
                 <i class="fas fa-sync-alt"></i>
                 <span>Refresh</span>
-            </a>
+            </button>
         </div>
     </header>
 
-    <!-- Main Results Container -->
+    <!-- MAIN SEARCH RESULTS -->
     <main class="search-results-container">
         <div class="results-title">
             <div class="search-icon">
@@ -308,14 +421,53 @@
         <div class="gcse-search"></div>
     </main>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="results-footer">
         <p>&copy; 2023 J.A.R.V.I.S Search. Created by Daniel Gaudreault</p>
         <p>Powered by Google Custom Search | LDG Intelligent Search Solutions</p>
     </footer>
 
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <script>
+        // FORCE LOGO TO LOAD - Multiple fallback methods
         document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.querySelector('.results-logo');
+            
+            // Method 1: Check if logo loaded
+            if (logo) {
+                logo.onerror = function() {
+                    // If image fails, create fallback
+                    const parent = this.parentElement;
+                    const fallback = document.createElement('div');
+                    fallback.className = 'logo-fallback';
+                    fallback.textContent = 'LDG';
+                    fallback.style.display = 'flex';
+                    fallback.style.alignItems = 'center';
+                    fallback.style.justifyContent = 'center';
+                    
+                    parent.replaceChild(fallback, this);
+                };
+                
+                // Method 2: Force reload image
+                setTimeout(() => {
+                    const src = logo.src;
+                    logo.src = '';
+                    setTimeout(() => {
+                        logo.src = src;
+                    }, 100);
+                }, 500);
+                
+                // Method 3: Add click to test
+                logo.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.1) rotate(5deg)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 300);
+                });
+            }
+            
             // Get search query from URL
             const urlParams = new URLSearchParams(window.location.search);
             const searchQuery = urlParams.get('q');
@@ -329,28 +481,20 @@
                         // Set the search query
                         searchInput.value = decodeURIComponent(searchQuery);
                         
-                        // Trigger search after a short delay
+                        // Trigger search
                         setTimeout(() => {
                             const searchButton = document.querySelector('.gsc-search-button-v2');
                             if (searchButton) {
                                 searchButton.click();
                             }
-                        }, 500);
+                        }, 800);
                     }
                 }, 100);
             }
             
-            // Back to top functionality
-            const backToTop = document.querySelector('[href="#top"]');
-            if (backToTop) {
-                backToTop.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
-            }
+            // Console log for debugging
+            console.log('Search results page loaded');
+            console.log('Logo path:', logo ? logo.src : 'No logo found');
         });
     </script>
 </body>
