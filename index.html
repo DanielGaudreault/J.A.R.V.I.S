@@ -3,252 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Search</title>
-    <!-- Google Custom Search Engine script -->
+    <title>J.A.R.V.I.S - Intelligent Search</title>
+    <!-- Google Custom Search Engine -->
     <script async src="https://cse.google.com/cse.js?cx=174a08c14d30f4a84"></script>
     <link rel="stylesheet" href="styles.css">
     <!-- Favicon -->
     <link rel="icon" href="images/MyLogo.png" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* Minimal inline styles for this page only */
         body {
             background-image: url('images/city wallpaper.jpg');
-            background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
-            font-family: Arial, sans-serif;
+            background-attachment: fixed;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
         }
-
-        .container {
-            max-width: 45%;
-            margin: 0 auto;
+        
+        .main-container {
+            width: 90%;
+            max-width: 800px;
             padding: 50px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             text-align: center;
-            opacity: 0;
-            animation: fadeIn 1s forwards;
+            backdrop-filter: blur(5px);
         }
-
+        
+        .logo-main {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #00d4ff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            margin: 0 auto 30px;
+            display: block;
+        }
+        
         h1 {
             color: #333;
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-size: 3.5rem;
+            margin: 0 0 10px;
+            font-family: 'Poppins', sans-serif;
         }
-
-        .gcse-searchbox-only {
-            text-align: center;
-            margin-top: 20px;
-            max-width: 300px;
-            margin: auto;
+        
+        .tagline {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            font-family: 'Poppins', sans-serif;
         }
-
-        .intro-message {
-            font-size: 24px;
-            margin-bottom: 30px;
-            color: #444;
+        
+        .search-wrapper {
+            display: flex;
+            gap: 10px;
+            margin: 40px auto;
+            max-width: 600px;
+            align-items: center;
+            justify-content: center;
         }
-
-        /* Custom Search Button with MyLogo */
-        .custom-search-button {
-            display: inline-block;
-            background-image: url('images/MyLogo.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-color: transparent;
+        
+        .custom-search-btn {
+            background: url('images/MyLogo.png') center/cover;
             width: 60px;
             height: 60px;
             border: none;
-            cursor: pointer;
-            margin-left: 10px;
-            vertical-align: middle;
-            transition: transform 0.3s ease, filter 0.3s ease;
             border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-
-        .custom-search-button:hover {
-            transform: scale(1.15) rotate(5deg);
-            filter: brightness(1.1);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        
+        .custom-search-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
-
-        .custom-search-button:active {
-            transform: scale(0.95);
+        
+        /* Style Google search box */
+        .gcse-searchbox-only {
+            flex: 1;
         }
-
-        /* Hide the default Google search button */
-        .gsc-search-button-v2 {
-            display: none !important;
-        }
-
-        /* Customize the search input */
+        
         .gsc-input-box {
             border: 2px solid #ddd !important;
             border-radius: 30px !important;
-            padding: 5px 15px !important;
             background: white !important;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1) !important;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1) !important;
         }
-
+        
         .gsc-input {
-            font-size: 16px !important;
             color: #333 !important;
+            font-size: 16px !important;
+            padding: 12px 20px !important;
         }
-
-        /* Search wrapper */
-        .search-wrapper {
-            display: flex;
+        
+        .gsc-search-button-v2 {
+            display: none !important;
+        }
+        
+        .nav-link {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 30px 0;
-        }
-
-        /* Home Button */
-        .home-button {
-            display: inline-block;
-            background-image: url('images/MyLogo.png');
-            width: 120px;
-            height: 120px;
-            background-size: cover;
-            text-indent: -9999px;
-            border-radius: 50%;
+            gap: 8px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #00d4ff, #0088ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
             margin-top: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            border: 3px solid white;
+            transition: all 0.3s ease;
         }
-
-        .home-button:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
         }
-
+        
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes logoPulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        /* Logo animation */
-        .logo-animation {
-            animation: logoPulse 2s infinite ease-in-out;
+        
+        .main-container {
+            animation: fadeIn 0.8s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>LDG</h1>
-        <div class="intro-message">Intelligent Search Assistant</div>
+    <div class="main-container">
+        <!-- Logo -->
+        <img src="images/MyLogo.png" alt="J.A.R.V.I.S Logo" class="logo-main">
         
-        <!-- Custom Search Wrapper -->
+        <!-- Title -->
+        <h1>J.A.R.V.I.S</h1>
+        <p class="tagline">Just A Rather Very Intelligent System</p>
+        
+        <!-- Search Area -->
         <div class="search-wrapper">
             <!-- Google Custom Search Box -->
             <div class="gcse-searchbox-only"></div>
+            
             <!-- Custom Search Button -->
-            <button class="custom-search-button logo-animation" id="searchButton" aria-label="Search">
+            <button class="custom-search-btn" id="searchBtn" aria-label="Search">
                 <span style="display:none;">Search</span>
             </button>
         </div>
         
-        <!-- Home Button -->
-        <a href="index.html" class="home-button" aria-label="Home"></a>
+        <!-- Navigation -->
+        <a href="search-results.html" class="nav-link">
+            <i class="fas fa-search"></i>
+            <span>View Search Results</span>
+        </a>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2023 J.A.R.V.I.S Search | Created by Daniel Gaudreault</p>
+            <p>Powered by Google Custom Search</p>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const searchBtn = document.getElementById('searchBtn');
+            
             // Wait for Google CSE to load
             const checkCSE = setInterval(function() {
-                const searchBox = document.querySelector('.gsc-input-box');
                 const searchInput = document.querySelector('.gsc-input');
-                const searchButton = document.getElementById('searchButton');
-                
-                if (searchBox && searchInput && searchButton) {
+                if (searchInput && searchBtn) {
                     clearInterval(checkCSE);
                     
-                    // Trigger search when custom button is clicked
-                    searchButton.addEventListener('click', function() {
+                    // Click search button functionality
+                    searchBtn.addEventListener('click', function() {
                         if (searchInput.value.trim()) {
-                            // Find and click the hidden Google search button
-                            const googleButton = document.querySelector('.gsc-search-button-v2');
-                            if (googleButton) {
-                                googleButton.click();
-                            } else {
-                                // Fallback: Submit the form
-                                const searchForm = document.querySelector('.gsc-search-box form');
-                                if (searchForm) {
-                                    searchForm.submit();
-                                }
-                            }
+                            // Redirect to search results page with query
+                            const query = encodeURIComponent(searchInput.value);
+                            window.location.href = `search-results.html?q=${query}`;
                         }
                     });
                     
-                    // Also trigger search on Enter key
+                    // Enter key also redirects
                     searchInput.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter') {
-                            searchButton.click();
+                        if (e.key === 'Enter' && this.value.trim()) {
+                            const query = encodeURIComponent(this.value);
+                            window.location.href = `search-results.html?q=${query}`;
                         }
                     });
                     
-                    // Add click animation
-                    searchButton.addEventListener('mousedown', function() {
-                        this.style.transform = 'scale(0.9)';
-                    });
-                    
-                    searchButton.addEventListener('mouseup', function() {
-                        this.style.transform = 'scale(1.15) rotate(5deg)';
-                        setTimeout(() => {
-                            this.style.transform = '';
-                        }, 200);
-                    });
-                    
-                    // Add focus to search input on page load
+                    // Focus on search input
                     setTimeout(() => {
-                        if (searchInput) {
-                            searchInput.focus();
-                        }
+                        searchInput.focus();
                     }, 500);
                 }
             }, 100);
             
-            // Add click animation to home button
-            const homeButton = document.querySelector('.home-button');
-            if (homeButton) {
-                homeButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    this.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1.1) rotate(5deg)';
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 300);
-                    }, 100);
-                });
-            }
-            
-            // Keyboard shortcut (Ctrl+/ or Cmd+/) to focus search
+            // Keyboard shortcut
             document.addEventListener('keydown', function(e) {
                 if ((e.ctrlKey || e.metaKey) && e.key === '/') {
                     e.preventDefault();
