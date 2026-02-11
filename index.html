@@ -88,6 +88,10 @@
             transform: scale(1.1) rotate(5deg);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
+
+        .custom-search-btn:active {
+            transform: scale(0.95);
+        }
         
         /* Style Google search box */
         .gcse-searchbox-only {
@@ -110,8 +114,6 @@
         .gsc-search-button-v2 {
             display: none !important;
         }
-        
-        /* REMOVED: Navigation link section */
         
         .footer {
             margin-top: 40px;
@@ -149,8 +151,6 @@
             </button>
         </div>
         
-        <!-- REMOVED: Navigation button -->
-        
         <!-- Footer -->
         <div class="footer">
             <p>&copy; 2026 J.A.R.V.I.S Search | Created by Lord Daniel Gaudreault</p>
@@ -162,26 +162,40 @@
         document.addEventListener('DOMContentLoaded', function() {
             const searchBtn = document.getElementById('searchBtn');
             
+            // Function to perform search
+            function performSearch() {
+                const searchInput = document.querySelector('.gsc-input');
+                if (searchInput && searchInput.value.trim()) {
+                    const query = encodeURIComponent(searchInput.value.trim());
+                    window.location.href = `search-results.html?q=${query}`;
+                } else {
+                    // Optional: Show a subtle hint if search is empty
+                    const searchInput = document.querySelector('.gsc-input');
+                    if (searchInput) {
+                        searchInput.style.border = '2px solid #ff4444 !important';
+                        searchInput.placeholder = 'Please enter a search term';
+                        setTimeout(() => {
+                            searchInput.style.border = '';
+                            searchInput.placeholder = '';
+                        }, 2000);
+                    }
+                }
+            }
+            
             // Wait for Google CSE to load
             const checkCSE = setInterval(function() {
                 const searchInput = document.querySelector('.gsc-input');
                 if (searchInput && searchBtn) {
                     clearInterval(checkCSE);
                     
-                    // Click search button functionality
-                    searchBtn.addEventListener('click', function() {
-                        if (searchInput.value.trim()) {
-                            // Redirect to search results page with query
-                            const query = encodeURIComponent(searchInput.value);
-                            window.location.href = `search-results.html?q=${query}`;
-                        }
-                    });
+                    // Make the button functional as an ENTER button
+                    searchBtn.addEventListener('click', performSearch);
                     
-                    // Enter key also redirects
+                    // Also make Enter key work
                     searchInput.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter' && this.value.trim()) {
-                            const query = encodeURIComponent(this.value);
-                            window.location.href = `search-results.html?q=${query}`;
+                        if (e.key === 'Enter') {
+                            e.preventDefault(); // Prevent any default behavior
+                            performSearch();
                         }
                     });
                     
@@ -192,7 +206,7 @@
                 }
             }, 100);
             
-            // Keyboard shortcut
+            // Keyboard shortcut (Ctrl+/ or Cmd+/)
             document.addEventListener('keydown', function(e) {
                 if ((e.ctrlKey || e.metaKey) && e.key === '/') {
                     e.preventDefault();
@@ -200,6 +214,15 @@
                     if (searchInput) {
                         searchInput.focus();
                         searchInput.select();
+                    }
+                }
+                
+                // Optional: Add Escape key to clear search
+                if (e.key === 'Escape') {
+                    const searchInput = document.querySelector('.gsc-input');
+                    if (searchInput && document.activeElement === searchInput) {
+                        searchInput.value = '';
+                        e.preventDefault();
                     }
                 }
             });
