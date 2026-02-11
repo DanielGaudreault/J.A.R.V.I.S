@@ -86,10 +86,18 @@
             justify-content: center;
         }
         
-        /* Style the Google CSE container */
+        /* Style the Google CSE container - REMOVED BOX */
         .gcse-search {
             flex: 1;
             width: 100%;
+        }
+        
+        /* Hide the entire Google CSE results container */
+        .gsc-control-cse {
+            border: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            box-shadow: none !important;
         }
         
         /* Make the search bar EXTRA long and beautiful */
@@ -258,6 +266,30 @@
             display: none !important;
         }
         
+        /* Hide the outer container box completely */
+        .gsc-control-cse {
+            border: none !important;
+            background-color: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
+        }
+        
+        /* Hide any results that might appear on the same page */
+        .gsc-results-wrapper-overlay,
+        .gsc-results-root,
+        .gsc-webResult,
+        .gsc-result-info,
+        .gsc-orderby,
+        .gsc-above-wrapper-area,
+        .gsc-adBlock,
+        .gsc-thumbnail-inside,
+        .gsc-url-top,
+        .gsc-table-result,
+        .gsc-webResult.gsc-result {
+            display: none !important;
+        }
+        
         /* Responsive design */
         @media (max-width: 768px) {
             .main-container {
@@ -300,7 +332,7 @@
         
         <!-- Search Area -->
         <div class="search-wrapper">
-            <!-- Google Custom Search Element -->
+            <!-- Google Custom Search Element - Search Box Only -->
             <div class="gcse-search"></div>
             
             <!-- Custom Search Button -->
@@ -319,16 +351,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBtn = document.getElementById('searchBtn');
+            const cx = '174a08c14d30f4a84'; // Your search engine ID
             
             // Simple function to get the search input
             function getSearchInput() {
                 return document.querySelector('.gsc-input-box input');
             }
             
-            // Function to perform search
+            // Function to perform search - ONLY YOUR CUSTOM GOOGLE SEARCH
             function performSearch() {
                 const input = getSearchInput();
-               
+                
+                if (input && input.value.trim() !== '') {
+                    const query = encodeURIComponent(input.value.trim());
+                    // Redirect ONLY to your custom Google search results page
+                    window.location.href = `https://cse.google.com/cse?cx=${cx}&q=${query}`;
                 } else {
                     // Show warning if search is empty
                     const searchBox = document.querySelector('.gsc-input-box');
