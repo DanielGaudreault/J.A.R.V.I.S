@@ -128,7 +128,6 @@
             opacity: 0.7;
         }
         
-        /* For older browsers */
         .gsc-input-box input::-webkit-input-placeholder {
             text-align: center !important;
         }
@@ -155,8 +154,6 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
-            position: relative;
-            z-index: 1000;
         }
         
         .custom-search-btn:hover {
@@ -206,7 +203,7 @@
             <div class="gcse-searchbox-only"></div>
             
             <!-- Custom Search Button - Functions as Enter Button -->
-            <button class="custom-search-btn" id="searchBtn" type="button" aria-label="Search">
+            <button class="custom-search-btn" id="searchBtn" aria-label="Search">
                 <span style="display:none;">Search</span>
             </button>
         </div>
@@ -220,25 +217,23 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const searchBtn = document.getElementById('searchBtn');
             
-            // Function to perform search - This is the ENTER button functionality
+            // Simple function to get the search input
+            function getSearchInput() {
+                return document.querySelector('.gsc-input-box input');
+            }
+            
+            // Function to perform search - SIMPLE AND CLEAN
             function performSearch() {
-                console.log('Perform search called'); // Debug
-                const searchInput = document.querySelector('.gsc-input');
-                const inputElement = document.querySelector('.gsc-input-box input');
+                const input = getSearchInput();
                 
-                // Try both possible input selectors
-                const input = searchInput || inputElement;
-                
-                if (input && input.value && input.value.trim() !== '') {
+                if (input && input.value.trim() !== '') {
                     const query = encodeURIComponent(input.value.trim());
-                    console.log('Searching for:', query); // Debug
                     window.location.href = `search-results.html?q=${query}`;
                 } else {
                     // Show warning if search is empty
                     const searchBox = document.querySelector('.gsc-input-box');
-                    const activeInput = searchInput || inputElement;
-                    
                     if (searchBox) {
                         searchBox.classList.add('search-warning');
                         setTimeout(() => {
@@ -246,147 +241,64 @@
                         }, 2000);
                     }
                     
-                    if (activeInput) {
-                        activeInput.placeholder = 'Please enter a search term';
-                        activeInput.focus();
+                    if (input) {
+                        input.placeholder = 'Please enter a search term';
+                        input.focus();
                         setTimeout(() => {
-                            activeInput.placeholder = '';
+                            input.placeholder = '';
                         }, 2000);
                     }
                 }
             }
             
-            // Direct button click handler
-            const searchBtn = document.getElementById('searchBtn');
+            // SIMPLE BUTTON CLICK HANDLER - NO COMPLICATED STUFF
             if (searchBtn) {
-                // Remove any existing event listeners
-                searchBtn.replaceWith(searchBtn.cloneNode(true));
-                
-                // Get fresh reference
-                const newSearchBtn = document.getElementById('searchBtn');
-                
-                // Add click event
-                newSearchBtn.addEventListener('click', function(e) {
+                searchBtn.onclick = function(e) {
                     e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Button clicked!'); // Debug
                     performSearch();
                     return false;
-                });
+                };
             }
             
-            // Wait for Google CSE to load and then set up handlers
-            const initSearch = setInterval(function() {
-                const searchInput = document.querySelector('.gsc-input');
-                const inputElement = document.querySelector('.gsc-input-box input');
-                const searchBtn = document.getElementById('searchBtn');
+            // Wait for Google CSE to load
+            const checkCSE = setInterval(function() {
+                const input = document.querySelector('.gsc-input-box input');
                 
-                if ((searchInput || inputElement) && searchBtn) {
-                    clearInterval(initSearch);
+                if (input) {
+                    clearInterval(checkCSE);
                     
-                    // Force center alignment
-                    function forceCenterAlignment() {
-                        const inputs = document.querySelectorAll('.gsc-input-box input, .gsc-input');
-                        inputs.forEach(input => {
-                            if (input) {
-                                input.style.textAlign = 'center';
-                                input.style.lineHeight = '70px';
-                                input.style.height = '70px';
-                            }
-                        });
-                    }
+                    // Center the text
+                    input.style.textAlign = 'center';
+                    input.style.lineHeight = '70px';
+                    input.style.height = '70px';
                     
-                    forceCenterAlignment();
-                    
-                    // Set up Enter key handler
-                    const input = searchInput || inputElement;
-                    if (input) {
-                        input.addEventListener('keydown', function(e) {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                console.log('Enter pressed!'); // Debug
-                                performSearch();
-                                return false;
-                            }
-                        });
-                    }
-                    
-                    // Re-add button handler in case Google overrides it
-                    const btn = document.getElementById('searchBtn');
-                    if (btn) {
-                        btn.addEventListener('click', function(e) {
+                    // SIMPLE ENTER KEY HANDLER
+                    input.onkeydown = function(e) {
+                        if (e.key === 'Enter') {
                             e.preventDefault();
-                            e.stopPropagation();
-                            console.log('Button clicked (re-added)!'); // Debug
                             performSearch();
                             return false;
-                        });
-                    }
-                    
-                    // Periodically reapply handlers and centering
-                    setInterval(function() {
-                        forceCenterAlignment();
-                        
-                        // Re-attach button handler if needed
-                        const currentBtn = document.getElementById('searchBtn');
-                        if (currentBtn) {
-                            // Check if our handler is attached
-                            currentBtn.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                performSearch();
-                                return false;
-                            });
                         }
-                    }, 1000);
+                    };
                     
                     // Focus on search input
                     setTimeout(() => {
-                        if (input) {
-                            input.focus();
-                            forceCenterAlignment();
-                        }
+                        input.focus();
                     }, 500);
                 }
             }, 100);
             
-            // Keyboard shortcut (Ctrl+/ or Cmd+/)
+            // Keyboard shortcut
             document.addEventListener('keydown', function(e) {
                 if ((e.ctrlKey || e.metaKey) && e.key === '/') {
                     e.preventDefault();
-                    const searchInput = document.querySelector('.gsc-input') || document.querySelector('.gsc-input-box input');
-                    if (searchInput) {
-                        searchInput.focus();
-                        searchInput.select();
-                    }
-                }
-                
-                // Escape key to clear search
-                if (e.key === 'Escape') {
-                    const searchInput = document.querySelector('.gsc-input') || document.querySelector('.gsc-input-box input');
-                    if (searchInput && document.activeElement === searchInput) {
-                        searchInput.value = '';
-                        e.preventDefault();
+                    const input = getSearchInput();
+                    if (input) {
+                        input.focus();
+                        input.select();
                     }
                 }
             });
-            
-            // Also try to initialize after Google CSE loads
-            window.__gcse = {
-                callback: function() {
-                    console.log('Google CSE loaded');
-                    const searchBtn = document.getElementById('searchBtn');
-                    if (searchBtn) {
-                        searchBtn.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            performSearch();
-                            return false;
-                        });
-                    }
-                }
-            };
         });
     </script>
 </body>
