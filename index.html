@@ -315,13 +315,21 @@
                 return document.querySelector('.gsc-input-box input');
             }
             
-            // Function to perform search - CLEAN AND SIMPLE
+            // Function to perform search - FIXED FOR 404 ERROR
             function performSearch() {
                 const input = getSearchInput();
                 
                 if (input && input.value.trim() !== '') {
                     const query = encodeURIComponent(input.value.trim());
-                    window.location.href = `search-results.html?q=${query}`;
+                    
+                    // OPTION 1: Use Google's actual search URL (RECOMMENDED - NO 404 ERROR)
+                    window.location.href = `https://www.google.com/search?q=${query}`;
+                    
+                    // OPTION 2: If you want to use Google Custom Search results page
+                    // window.location.href = `https://cse.google.com/cse?cx=174a08c14d30f4a84&q=${query}`;
+                    
+                    // OPTION 3: If you create search-results.html later, uncomment this:
+                    // window.location.href = `search-results.html?q=${query}`;
                 } else {
                     // Show warning if search is empty
                     const searchBox = document.querySelector('.gsc-input-box');
