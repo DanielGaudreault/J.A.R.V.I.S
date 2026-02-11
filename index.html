@@ -29,8 +29,8 @@
         }
         
         .main-container {
-            width: 90%;
-            max-width: 800px;
+            width: 95%;
+            max-width: 1000px;
             padding: 50px;
             background-color: rgba(255, 255, 255, 0.85);
             border-radius: 20px;
@@ -66,22 +66,64 @@
         
         .search-wrapper {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             margin: 40px auto;
-            max-width: 600px;
+            max-width: 800px;
+            width: 100%;
             align-items: center;
             justify-content: center;
         }
         
+        .gcse-searchbox-only {
+            flex: 1;
+            width: 100%;
+        }
+        
+        /* Make the search bar longer */
+        .gsc-control-searchbox-only {
+            width: 100% !important;
+        }
+        
+        .gsc-search-box {
+            width: 100% !important;
+        }
+        
+        .gsc-input-box {
+            border: 2px solid #ddd !important;
+            border-radius: 30px !important;
+            background: white !important;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1) !important;
+            height: 60px !important;
+            width: 100% !important;
+        }
+        
+        .gsc-input {
+            color: #333 !important;
+            font-size: 18px !important;
+            padding: 15px 25px !important;
+            background: none !important;
+            text-indent: 0 !important;
+        }
+        
+        .gsc-input-box input {
+            font-size: 18px !important;
+            padding: 15px 25px !important;
+        }
+        
+        .gsc-search-button-v2 {
+            display: none !important;
+        }
+        
         .custom-search-btn {
             background: url('images/MyLogo.png') center/cover;
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border: none;
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
         }
         
         .custom-search-btn:hover {
@@ -91,28 +133,6 @@
 
         .custom-search-btn:active {
             transform: scale(0.95);
-        }
-        
-        /* Style Google search box */
-        .gcse-searchbox-only {
-            flex: 1;
-        }
-        
-        .gsc-input-box {
-            border: 2px solid #ddd !important;
-            border-radius: 30px !important;
-            background: white !important;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1) !important;
-        }
-        
-        .gsc-input {
-            color: #333 !important;
-            font-size: 16px !important;
-            padding: 12px 20px !important;
-        }
-        
-        .gsc-search-button-v2 {
-            display: none !important;
         }
         
         .footer {
@@ -129,6 +149,13 @@
         .main-container {
             animation: fadeIn 0.8s ease-out;
         }
+
+        /* Empty search warning style */
+        .gsc-input-box.search-warning {
+            border: 2px solid #ff4444 !important;
+            box-shadow: 0 0 8px rgba(255, 68, 68, 0.3) !important;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -142,7 +169,7 @@
         
         <!-- Search Area -->
         <div class="search-wrapper">
-            <!-- NEW Google Custom Search Box -->
+            <!-- NEW Google Custom Search Box - Now Longer -->
             <div class="gcse-searchbox-only"></div>
             
             <!-- Custom Search Button -->
@@ -165,17 +192,23 @@
             // Function to perform search
             function performSearch() {
                 const searchInput = document.querySelector('.gsc-input');
+                const searchBox = document.querySelector('.gsc-input-box');
                 if (searchInput && searchInput.value.trim()) {
                     const query = encodeURIComponent(searchInput.value.trim());
                     window.location.href = `search-results.html?q=${query}`;
                 } else {
-                    // Optional: Show a subtle hint if search is empty
-                    const searchInput = document.querySelector('.gsc-input');
+                    // Show warning if search is empty
                     if (searchInput) {
-                        searchInput.style.border = '2px solid #ff4444 !important';
+                        const searchBox = document.querySelector('.gsc-input-box');
+                        if (searchBox) {
+                            searchBox.classList.add('search-warning');
+                            setTimeout(() => {
+                                searchBox.classList.remove('search-warning');
+                            }, 2000);
+                        }
                         searchInput.placeholder = 'Please enter a search term';
+                        searchInput.focus();
                         setTimeout(() => {
-                            searchInput.style.border = '';
                             searchInput.placeholder = '';
                         }, 2000);
                     }
