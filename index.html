@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>J.A.R.V.I.S - Intelligent Search</title>
-    <!-- Your Google Custom Search Engine -->
-    <script async src="https://cse.google.com/cse.js?cx=44c8a3cb5b6a54a72"></script>
+    <!-- Google Custom Search Engine -->
+    <script async src="https://cse.google.com/cse.js?cx=174a08c14d30f4a84"></script>
     <link rel="stylesheet" href="styles.css">
     <!-- Favicon -->
     <link rel="icon" href="images/MyLogo.png" type="image/x-icon">
@@ -14,7 +14,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* [All your existing CSS styles remain exactly the same - keeping your beautiful design] */
+        /* Minimal inline styles for this page only */
         body {
             background-image: url('images/city wallpaper.jpg');
             background-size: cover;
@@ -86,11 +86,13 @@
             justify-content: center;
         }
         
-        .gcse-searchbox-only {
+        /* Style the Google CSE container */
+        .gcse-search {
             flex: 1;
             width: 100%;
         }
         
+        /* Make the search bar EXTRA long and beautiful */
         .gsc-control-searchbox-only {
             width: 100% !important;
         }
@@ -149,6 +151,7 @@
             letter-spacing: 0.5px !important;
         }
         
+        /* Center placeholder text */
         .gsc-input-box input::placeholder {
             text-align: center !important;
             opacity: 0.6;
@@ -233,6 +236,7 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        /* Empty search warning style */
         .gsc-input-box.search-warning {
             border: 3px solid #ff4444 !important;
             box-shadow: 0 8px 25px rgba(255, 68, 68, 0.35) !important;
@@ -245,23 +249,38 @@
             40%, 80% { transform: translateX(5px); }
         }
         
+        /* Hide Google's default search button and results */
+        .gsc-search-button {
+            display: none !important;
+        }
+        
+        .gsc-clear-button {
+            display: none !important;
+        }
+        
+        /* Responsive design */
         @media (max-width: 768px) {
             .main-container {
                 padding: 30px;
             }
+            
             h1 {
                 font-size: 2.8rem;
             }
+            
             .search-wrapper {
                 flex-direction: column;
             }
+            
             .custom-search-btn {
                 width: 75px;
                 height: 75px;
             }
+            
             .gsc-input-box {
                 height: 75px !important;
             }
+            
             .gsc-input-box input {
                 height: 75px !important;
                 line-height: 75px !important;
@@ -272,19 +291,25 @@
 </head>
 <body>
     <div class="main-container">
+        <!-- Logo -->
         <img src="images/MyLogo.png" alt="J.A.R.V.I.S Logo" class="logo-main">
+        
+        <!-- Title -->
         <h1>J.A.R.V.I.S</h1>
         <p class="tagline">Just A Rather Very Intelligent System</p>
         
+        <!-- Search Area -->
         <div class="search-wrapper">
-            <!-- Google Custom Search Box with YOUR search engine ID -->
-            <div class="gcse-searchbox-only"></div>
+            <!-- Google Custom Search Element -->
+            <div class="gcse-search"></div>
             
+            <!-- Custom Search Button -->
             <button class="custom-search-btn" id="searchBtn" aria-label="Search">
                 <span style="display:none;">Search</span>
             </button>
         </div>
         
+        <!-- Footer -->
         <div class="footer">
             <p>&copy; 2026 J.A.R.V.I.S Search | Created by Lord Daniel Gaudreault</p>
             <p>Powered by Google Custom Search</p>
@@ -294,20 +319,22 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBtn = document.getElementById('searchBtn');
-            const cx = '44c8a3cb5b6a54a72'; // Your specific search engine ID
             
+            // Simple function to get the search input
             function getSearchInput() {
                 return document.querySelector('.gsc-input-box input');
             }
             
+            // Function to perform search
             function performSearch() {
                 const input = getSearchInput();
                 
                 if (input && input.value.trim() !== '') {
                     const query = encodeURIComponent(input.value.trim());
-                    // THIS NOW REDIRECTS TO YOUR SPECIFIC SEARCH RESULTS PAGE
-                    window.location.href = `https://cse.google.com/cse?cx=${cx}&q=${query}`;
+                    // Redirect to Google search results
+                    window.location.href = `https://www.google.com/search?q=${query}`;
                 } else {
+                    // Show warning if search is empty
                     const searchBox = document.querySelector('.gsc-input-box');
                     if (searchBox) {
                         searchBox.classList.add('search-warning');
@@ -326,7 +353,7 @@
                 }
             }
             
-            // Button click handler
+            // BUTTON CLICK HANDLER
             if (searchBtn) {
                 searchBtn.onclick = function(e) {
                     e.preventDefault();
@@ -342,12 +369,13 @@
                 if (input) {
                     clearInterval(checkCSE);
                     
+                    // Center the text
                     input.style.textAlign = 'center';
                     input.style.lineHeight = '85px';
                     input.style.height = '85px';
                     input.style.fontSize = '22px';
                     
-                    // Enter key handler
+                    // ENTER KEY HANDLER
                     input.onkeydown = function(e) {
                         if (e.key === 'Enter') {
                             e.preventDefault();
@@ -356,13 +384,14 @@
                         }
                     };
                     
+                    // Focus on search input
                     setTimeout(() => {
                         input.focus();
                     }, 500);
                 }
             }, 100);
             
-            // Keyboard shortcut
+            // Keyboard shortcut (Ctrl+/ or Cmd+/)
             document.addEventListener('keydown', function(e) {
                 if ((e.ctrlKey || e.metaKey) && e.key === '/') {
                     e.preventDefault();
