@@ -93,21 +93,52 @@
             border-radius: 30px !important;
             background: white !important;
             box-shadow: inset 0 2px 8px rgba(0,0,0,0.1) !important;
-            height: 60px !important;
+            height: 70px !important;
             width: 100% !important;
+            display: flex !important;
+            align-items: center !important;
         }
         
         .gsc-input {
             color: #333 !important;
             font-size: 18px !important;
-            padding: 15px 25px !important;
+            padding: 0 !important;
             background: none !important;
             text-indent: 0 !important;
+            height: 70px !important;
+            display: flex !important;
+            align-items: center !important;
         }
         
         .gsc-input-box input {
             font-size: 18px !important;
-            padding: 15px 25px !important;
+            padding: 0 25px !important;
+            height: 70px !important;
+            line-height: 70px !important;
+            text-align: center !important;
+            background: transparent !important;
+            width: 100% !important;
+            border: none !important;
+            box-sizing: border-box !important;
+        }
+        
+        /* Center placeholder text */
+        .gsc-input-box input::placeholder {
+            text-align: center !important;
+            opacity: 0.7;
+        }
+        
+        /* For older browsers */
+        .gsc-input-box input::-webkit-input-placeholder {
+            text-align: center !important;
+        }
+        
+        .gsc-input-box input::-moz-placeholder {
+            text-align: center !important;
+        }
+        
+        .gsc-input-box input:-ms-input-placeholder {
+            text-align: center !important;
         }
         
         .gsc-search-button-v2 {
@@ -169,10 +200,10 @@
         
         <!-- Search Area -->
         <div class="search-wrapper">
-            <!-- NEW Google Custom Search Box - Now Longer -->
+            <!-- NEW Google Custom Search Box - Now Longer with Centered Text -->
             <div class="gcse-searchbox-only"></div>
             
-            <!-- Custom Search Button -->
+            <!-- Custom Search Button - Functions as Enter Button -->
             <button class="custom-search-btn" id="searchBtn" aria-label="Search">
                 <span style="display:none;">Search</span>
             </button>
@@ -189,17 +220,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             const searchBtn = document.getElementById('searchBtn');
             
-            // Function to perform search
+            // Function to perform search - This is the ENTER button functionality
             function performSearch() {
                 const searchInput = document.querySelector('.gsc-input');
-                const searchBox = document.querySelector('.gsc-input-box');
                 if (searchInput && searchInput.value.trim()) {
                     const query = encodeURIComponent(searchInput.value.trim());
                     window.location.href = `search-results.html?q=${query}`;
                 } else {
                     // Show warning if search is empty
+                    const searchInput = document.querySelector('.gsc-input');
+                    const searchBox = document.querySelector('.gsc-input-box');
                     if (searchInput) {
-                        const searchBox = document.querySelector('.gsc-input-box');
                         if (searchBox) {
                             searchBox.classList.add('search-warning');
                             setTimeout(() => {
@@ -215,16 +246,47 @@
                 }
             }
             
+            // Force center alignment on the input after Google CSE loads
+            function forceCenterAlignment() {
+                const searchInput = document.querySelector('.gsc-input');
+                const inputElement = document.querySelector('.gsc-input-box input');
+                
+                if (searchInput) {
+                    searchInput.style.textAlign = 'center';
+                }
+                
+                if (inputElement) {
+                    inputElement.style.textAlign = 'center';
+                    inputElement.style.paddingLeft = '25px';
+                    inputElement.style.paddingRight = '25px';
+                    inputElement.style.lineHeight = '70px';
+                    inputElement.style.height = '70px';
+                }
+                
+                // Also target any potential child inputs
+                const allInputs = document.querySelectorAll('.gsc-input-box input, .gsc-input, .gsc-search-box input');
+                allInputs.forEach(input => {
+                    input.style.textAlign = 'center';
+                    input.style.lineHeight = '70px';
+                    input.style.height = '70px';
+                });
+            }
+            
             // Wait for Google CSE to load
             const checkCSE = setInterval(function() {
                 const searchInput = document.querySelector('.gsc-input');
+                const inputElement = document.querySelector('.gsc-input-box input');
+                
                 if (searchInput && searchBtn) {
                     clearInterval(checkCSE);
+                    
+                    // Apply center alignment
+                    forceCenterAlignment();
                     
                     // Make the button functional as an ENTER button
                     searchBtn.addEventListener('click', performSearch);
                     
-                    // Also make Enter key work
+                    // Also make Enter key work exactly the same way
                     searchInput.addEventListener('keydown', function(e) {
                         if (e.key === 'Enter') {
                             e.preventDefault(); // Prevent any default behavior
@@ -232,9 +294,13 @@
                         }
                     });
                     
+                    // Reapply center alignment periodically (Google might override)
+                    setInterval(forceCenterAlignment, 1000);
+                    
                     // Focus on search input
                     setTimeout(() => {
                         searchInput.focus();
+                        forceCenterAlignment();
                     }, 500);
                 }
             }, 100);
@@ -247,10 +313,11 @@
                     if (searchInput) {
                         searchInput.focus();
                         searchInput.select();
+                        forceCenterAlignment();
                     }
                 }
                 
-                // Optional: Add Escape key to clear search
+                // Escape key to clear search
                 if (e.key === 'Escape') {
                     const searchInput = document.querySelector('.gsc-input');
                     if (searchInput && document.activeElement === searchInput) {
@@ -259,6 +326,9 @@
                     }
                 }
             });
+            
+            // Force center alignment on window resize
+            window.addEventListener('resize', forceCenterAlignment);
         });
     </script>
 </body>
