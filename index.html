@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>J.A.R.V.I.S - Intelligent Search</title>
-    <!-- Google Custom Search Engine -->
+    <!-- NEW Google Custom Search Engine -->
     <script async src="https://cse.google.com/cse.js?cx=174a08c14d30f4a84"></script>
     <link rel="stylesheet" href="styles.css">
     <!-- Favicon -->
@@ -77,7 +77,6 @@
         .gcse-searchbox-only {
             flex: 1;
             width: 100%;
-            pointer-events: none; /* Prevent Google from handling events at container level */
         }
         
         /* Make the search bar longer */
@@ -98,7 +97,6 @@
             width: 100% !important;
             display: flex !important;
             align-items: center !important;
-            position: relative !important;
         }
         
         .gsc-input {
@@ -110,7 +108,6 @@
             height: 70px !important;
             display: flex !important;
             align-items: center !important;
-            width: 100% !important;
         }
         
         .gsc-input-box input {
@@ -123,7 +120,6 @@
             width: 100% !important;
             border: none !important;
             box-sizing: border-box !important;
-            pointer-events: auto !important; /* Allow typing but prevent form submission */
         }
         
         /* Center placeholder text */
@@ -132,6 +128,7 @@
             opacity: 0.7;
         }
         
+        /* For older browsers */
         .gsc-input-box input::-webkit-input-placeholder {
             text-align: center !important;
         }
@@ -144,17 +141,8 @@
             text-align: center !important;
         }
         
-        /* Completely hide Google's search button */
         .gsc-search-button-v2 {
             display: none !important;
-        }
-        
-        .gsc-clear-button {
-            display: none !important;
-        }
-        
-        table.gsc-search-box {
-            margin-bottom: 0 !important;
         }
         
         .custom-search-btn {
@@ -168,8 +156,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
             position: relative;
-            z-index: 9999;
-            pointer-events: auto !important;
+            z-index: 1000;
         }
         
         .custom-search-btn:hover {
@@ -202,18 +189,6 @@
             box-shadow: 0 0 8px rgba(255, 68, 68, 0.3) !important;
             transition: all 0.3s ease;
         }
-        
-        /* Override Google's table layout */
-        .gsc-search-box table {
-            width: 100% !important;
-        }
-        
-        .gsc-search-box tbody, 
-        .gsc-search-box tr, 
-        .gsc-search-box td {
-            display: block !important;
-            width: 100% !important;
-        }
     </style>
 </head>
 <body>
@@ -227,10 +202,10 @@
         
         <!-- Search Area -->
         <div class="search-wrapper">
-            <!-- Google Custom Search Box - We'll control it manually -->
+            <!-- NEW Google Custom Search Box - Now Longer with Centered Text -->
             <div class="gcse-searchbox-only"></div>
             
-            <!-- Custom Search Button - Completely independent Enter button -->
+            <!-- Custom Search Button - Functions as Enter Button -->
             <button class="custom-search-btn" id="searchBtn" type="button" aria-label="Search">
                 <span style="display:none;">Search</span>
             </button>
@@ -244,46 +219,25 @@
     </div>
 
     <script>
-        // Kill any Google form submission attempts
-        document.addEventListener('submit', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }, true);
-        
-        // Completely manual search control
         document.addEventListener('DOMContentLoaded', function() {
             
-            // Disable any Google search buttons that might appear
-            function disableGoogleSearch() {
-                const googleButtons = document.querySelectorAll('.gsc-search-button, .gsc-search-button-v2, input[value="Search"]');
-                googleButtons.forEach(btn => {
-                    btn.style.display = 'none';
-                    btn.disabled = true;
-                    if (btn.parentElement) {
-                        btn.parentElement.style.display = 'none';
-                    }
-                });
-            }
-            
-            // Get the search input value
-            function getSearchValue() {
-                const input = document.querySelector('.gsc-input-box input');
-                return input ? input.value.trim() : '';
-            }
-            
-            // Perform our own search
+            // Function to perform search - This is the ENTER button functionality
             function performSearch() {
-                const searchValue = getSearchValue();
-                console.log('Search value:', searchValue);
+                console.log('Perform search called'); // Debug
+                const searchInput = document.querySelector('.gsc-input');
+                const inputElement = document.querySelector('.gsc-input-box input');
                 
-                if (searchValue) {
-                    const query = encodeURIComponent(searchValue);
+                // Try both possible input selectors
+                const input = searchInput || inputElement;
+                
+                if (input && input.value && input.value.trim() !== '') {
+                    const query = encodeURIComponent(input.value.trim());
+                    console.log('Searching for:', query); // Debug
                     window.location.href = `search-results.html?q=${query}`;
                 } else {
-                    // Show warning
+                    // Show warning if search is empty
                     const searchBox = document.querySelector('.gsc-input-box');
-                    const input = document.querySelector('.gsc-input-box input');
+                    const activeInput = searchInput || inputElement;
                     
                     if (searchBox) {
                         searchBox.classList.add('search-warning');
@@ -292,135 +246,148 @@
                         }, 2000);
                     }
                     
-                    if (input) {
-                        input.placeholder = 'Please enter a search term';
-                        input.focus();
+                    if (activeInput) {
+                        activeInput.placeholder = 'Please enter a search term';
+                        activeInput.focus();
                         setTimeout(() => {
-                            input.placeholder = '';
+                            activeInput.placeholder = '';
                         }, 2000);
                     }
                 }
             }
             
-            // Set up our button
-            const setupButton = function() {
-                const searchBtn = document.getElementById('searchBtn');
-                if (searchBtn) {
-                    // Remove all existing event listeners by cloning
-                    const newBtn = searchBtn.cloneNode(true);
-                    searchBtn.parentNode.replaceChild(newBtn, searchBtn);
-                    
-                    // Add our event listener
-                    newBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        e.stopImmediatePropagation();
-                        console.log('Our button clicked!');
-                        performSearch();
-                        return false;
-                    });
-                }
-            };
+            // Direct button click handler
+            const searchBtn = document.getElementById('searchBtn');
+            if (searchBtn) {
+                // Remove any existing event listeners
+                searchBtn.replaceWith(searchBtn.cloneNode(true));
+                
+                // Get fresh reference
+                const newSearchBtn = document.getElementById('searchBtn');
+                
+                // Add click event
+                newSearchBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Button clicked!'); // Debug
+                    performSearch();
+                    return false;
+                });
+            }
             
-            // Set up Enter key on input
-            const setupEnterKey = function() {
-                const input = document.querySelector('.gsc-input-box input');
-                if (input) {
-                    // Remove any existing listeners
-                    const newInput = input.cloneNode(true);
-                    input.parentNode.replaceChild(newInput, input);
+            // Wait for Google CSE to load and then set up handlers
+            const initSearch = setInterval(function() {
+                const searchInput = document.querySelector('.gsc-input');
+                const inputElement = document.querySelector('.gsc-input-box input');
+                const searchBtn = document.getElementById('searchBtn');
+                
+                if ((searchInput || inputElement) && searchBtn) {
+                    clearInterval(initSearch);
                     
-                    // Add our enter key handler
-                    newInput.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter') {
+                    // Force center alignment
+                    function forceCenterAlignment() {
+                        const inputs = document.querySelectorAll('.gsc-input-box input, .gsc-input');
+                        inputs.forEach(input => {
+                            if (input) {
+                                input.style.textAlign = 'center';
+                                input.style.lineHeight = '70px';
+                                input.style.height = '70px';
+                            }
+                        });
+                    }
+                    
+                    forceCenterAlignment();
+                    
+                    // Set up Enter key handler
+                    const input = searchInput || inputElement;
+                    if (input) {
+                        input.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                console.log('Enter pressed!'); // Debug
+                                performSearch();
+                                return false;
+                            }
+                        });
+                    }
+                    
+                    // Re-add button handler in case Google overrides it
+                    const btn = document.getElementById('searchBtn');
+                    if (btn) {
+                        btn.addEventListener('click', function(e) {
                             e.preventDefault();
                             e.stopPropagation();
-                            e.stopImmediatePropagation();
-                            console.log('Enter key pressed!');
+                            console.log('Button clicked (re-added)!'); // Debug
                             performSearch();
                             return false;
-                        }
-                    });
-                    
-                    // Center the text
-                    newInput.style.textAlign = 'center';
-                    newInput.style.lineHeight = '70px';
-                    newInput.style.height = '70px';
-                }
-            };
-            
-            // Initial setup
-            disableGoogleSearch();
-            setupButton();
-            
-            // Watch for Google to load and then take control
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.addedNodes.length) {
-                        disableGoogleSearch();
-                        setupButton();
-                        setupEnterKey();
+                        });
                     }
-                });
-            });
+                    
+                    // Periodically reapply handlers and centering
+                    setInterval(function() {
+                        forceCenterAlignment();
+                        
+                        // Re-attach button handler if needed
+                        const currentBtn = document.getElementById('searchBtn');
+                        if (currentBtn) {
+                            // Check if our handler is attached
+                            currentBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                performSearch();
+                                return false;
+                            });
+                        }
+                    }, 1000);
+                    
+                    // Focus on search input
+                    setTimeout(() => {
+                        if (input) {
+                            input.focus();
+                            forceCenterAlignment();
+                        }
+                    }, 500);
+                }
+            }, 100);
             
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-            
-            // Also run every 500ms to ensure we maintain control
-            setInterval(function() {
-                disableGoogleSearch();
-                setupButton();
-                setupEnterKey();
+            // Keyboard shortcut (Ctrl+/ or Cmd+/)
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+                    e.preventDefault();
+                    const searchInput = document.querySelector('.gsc-input') || document.querySelector('.gsc-input-box input');
+                    if (searchInput) {
+                        searchInput.focus();
+                        searchInput.select();
+                    }
+                }
                 
-                // Keep text centered
-                const input = document.querySelector('.gsc-input-box input');
-                if (input) {
-                    input.style.textAlign = 'center';
-                    input.style.lineHeight = '70px';
-                    input.style.height = '70px';
+                // Escape key to clear search
+                if (e.key === 'Escape') {
+                    const searchInput = document.querySelector('.gsc-input') || document.querySelector('.gsc-input-box input');
+                    if (searchInput && document.activeElement === searchInput) {
+                        searchInput.value = '';
+                        e.preventDefault();
+                    }
                 }
-            }, 500);
+            });
             
-            // Focus on input
-            setTimeout(function() {
-                const input = document.querySelector('.gsc-input-box input');
-                if (input) {
-                    input.focus();
-                    input.style.textAlign = 'center';
-                }
-            }, 1000);
-            
-            // Prevent any form submissions at the window level
-            window.addEventListener('submit', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }, true);
-            
-            // Prevent Google's search function
-            window.gcse = {
-                search: function() {
-                    console.log('Google search prevented');
-                    return false;
+            // Also try to initialize after Google CSE loads
+            window.__gcse = {
+                callback: function() {
+                    console.log('Google CSE loaded');
+                    const searchBtn = document.getElementById('searchBtn');
+                    if (searchBtn) {
+                        searchBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            performSearch();
+                            return false;
+                        });
+                    }
                 }
             };
         });
-        
-        // Override Google's callback
-        window.__gcse = {
-            callback: function() {
-                console.log('Google CSE loaded, taking control');
-                // Disable Google's search functionality
-                if (window.google && window.google.search) {
-                    window.google.search = function() {
-                        return false;
-                    };
-                }
-            }
-        };
     </script>
 </body>
 </html>
