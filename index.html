@@ -86,29 +86,38 @@
             justify-content: center;
         }
         
-        /* Style the Google CSE container - REMOVED BOX */
+        /* COMPLETELY REMOVE THE BOX AROUND SEARCH BUBBLE */
         .gcse-search {
             flex: 1;
             width: 100%;
         }
         
-        /* Hide the entire Google CSE results container */
-        .gsc-control-cse {
+        /* Kill the outer container completely */
+        .gsc-control-cse,
+        .gsc-control-wrapper-cse,
+        .gsc-search-box {
             border: none !important;
             background: transparent !important;
             padding: 0 !important;
+            margin: 0 !important;
             box-shadow: none !important;
+            background-color: transparent !important;
+            border-style: none !important;
+            border-width: 0 !important;
         }
         
-        /* Make the search bar EXTRA long and beautiful */
-        .gsc-control-searchbox-only {
-            width: 100% !important;
+        /* Remove any table borders */
+        table.gsc-search-box,
+        tbody.gsc-search-box,
+        tr.gsc-search-box,
+        td.gsc-input {
+            border: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
         
-        .gsc-search-box {
-            width: 100% !important;
-        }
-        
+        /* Style only the input box itself */
         .gsc-input-box {
             border: 3px solid rgba(221, 221, 221, 0.8) !important;
             border-radius: 50px !important;
@@ -163,27 +172,6 @@
         .gsc-input-box input::placeholder {
             text-align: center !important;
             opacity: 0.6;
-            color: #777 !important;
-            font-size: 20px !important;
-            font-weight: 300 !important;
-        }
-        
-        .gsc-input-box input::-webkit-input-placeholder {
-            text-align: center !important;
-            color: #777 !important;
-            font-size: 20px !important;
-            font-weight: 300 !important;
-        }
-        
-        .gsc-input-box input::-moz-placeholder {
-            text-align: center !important;
-            color: #777 !important;
-            font-size: 20px !important;
-            font-weight: 300 !important;
-        }
-        
-        .gsc-input-box input:-ms-input-placeholder {
-            text-align: center !important;
             color: #777 !important;
             font-size: 20px !important;
             font-weight: 300 !important;
@@ -257,36 +245,19 @@
             40%, 80% { transform: translateX(5px); }
         }
         
-        /* Hide Google's default search button and results */
-        .gsc-search-button {
-            display: none !important;
-        }
-        
+        /* Hide everything else */
         .gsc-clear-button {
             display: none !important;
         }
         
-        /* Hide the outer container box completely */
-        .gsc-control-cse {
-            border: none !important;
-            background-color: transparent !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            box-shadow: none !important;
-        }
-        
-        /* Hide any results that might appear on the same page */
+        /* Hide any results that might appear */
         .gsc-results-wrapper-overlay,
         .gsc-results-root,
         .gsc-webResult,
         .gsc-result-info,
         .gsc-orderby,
         .gsc-above-wrapper-area,
-        .gsc-adBlock,
-        .gsc-thumbnail-inside,
-        .gsc-url-top,
-        .gsc-table-result,
-        .gsc-webResult.gsc-result {
+        .gsc-adBlock {
             display: none !important;
         }
         
@@ -407,6 +378,16 @@
                     input.style.lineHeight = '85px';
                     input.style.height = '85px';
                     input.style.fontSize = '22px';
+                    
+                    // Remove any parent container borders
+                    const parent = input.closest('.gsc-control-cse');
+                    if (parent) {
+                        parent.style.border = 'none';
+                        parent.style.background = 'transparent';
+                        parent.style.padding = '0';
+                        parent.style.margin = '0';
+                        parent.style.boxShadow = 'none';
+                    }
                     
                     // ENTER KEY HANDLER
                     input.onkeydown = function(e) {
