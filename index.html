@@ -328,11 +328,7 @@
             // Function to perform search
             function performSearch() {
                 const input = getSearchInput();
-                
-                if (input && input.value.trim() !== '') {
-                    const query = encodeURIComponent(input.value.trim());
-                    // Redirect to Google search results
-                    window.location.href = `https://www.google.com/search?q=${query}`;
+               
                 } else {
                     // Show warning if search is empty
                     const searchBox = document.querySelector('.gsc-input-box');
